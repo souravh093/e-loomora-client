@@ -1,6 +1,6 @@
 import { DashboardLayout } from "@/layout/DashboardLayout";
 import RootLayout from "@/layout/RootLayout";
-import { Login } from "@/pages/Auth/Login/Login";
+import Login from "@/pages/Auth/Login/Login";
 import Signup from "@/pages/Auth/Signup/Signup";
 import Error from "@/pages/Error/Error";
 import Home from "@/pages/Home/Home";
