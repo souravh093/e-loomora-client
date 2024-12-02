@@ -1,7 +1,6 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
@@ -15,31 +14,52 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   loginUserValidationSchema,
-  loginVendorValidationSchema,
   UserLoginFormValues,
-  VendorLoginFormValues,
 } from "@/validations/auth/login.validation";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useLoginMutation } from "@/redux/api/features/authApi";
+import { toast } from "@/hooks/use-toast";
+import { useAppDispatch } from "@/redux/hooks";
+import { verifyToken } from "@/utils/verifyToken";
+import { setUser, TUser } from "@/redux/api/features/authSlice";
+import Loader from "@/components/shared/Loader";
 
 export default function LoginForm() {
-  const [activeTab, setActiveTab] = useState<"user" | "vendor">("user");
-
+  const navigate = useNavigate();
+  const [loginUser, { isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
   const userForm = useForm<UserLoginFormValues>({
     resolver: zodResolver(loginUserValidationSchema),
   });
 
-  const vendorForm = useForm<VendorLoginFormValues>({
-    resolver: zodResolver(loginVendorValidationSchema),
-  });
+  const onUserSubmit: SubmitHandler<UserLoginFormValues> = async (data) => {
+    try {
+      const response = await loginUser(data).unwrap();
 
-  const onUserSubmit: SubmitHandler<UserLoginFormValues> = (data) => {
-    console.log("User login data:", data);
-    // Handle user login logic here
-  };
+      const user = verifyToken(response.data.accessToken) as TUser;
 
-  const onVendorSubmit: SubmitHandler<VendorLoginFormValues> = (data) => {
-    console.log("Vendor login data:", data);
-    // Handle vendor login logic here
+      dispatch(
+        setUser({
+          user,
+          token: response.data.accessToken,
+        })
+      );
+
+      if (response.success) {
+        toast({
+          variant: "default",
+          title: response.message,
+        });
+
+        navigate("/dashboard");
+        userForm.reset();
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    }
   };
 
   return (
@@ -54,111 +74,49 @@ export default function LoginForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value as "user" | "vendor")}
+          <form
+            onSubmit={userForm.handleSubmit(onUserSubmit)}
+            className="space-y-4"
           >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="user">User</TabsTrigger>
-              <TabsTrigger value="vendor">Vendor</TabsTrigger>
-            </TabsList>
-            <TabsContent value="user">
-              <form
-                onSubmit={userForm.handleSubmit(onUserSubmit)}
-                className="space-y-4"
-              >
-                <div>
-                  <Label htmlFor="user-email">Email</Label>
-                  <Input
-                    id="user-email"
-                    type="email"
-                    {...userForm.register("email")}
-                    className="mt-1"
-                  />
-                  {userForm.formState.errors.email && (
-                    <p className="text-sm text-red-500 mt-1">
-                      {userForm.formState.errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="user-password">Password</Label>
-                    <span>
-                      <Link
-                        to="/forget-password"
-                        className="text-red-500 text-sm"
-                      >
-                        Forgot password?
-                      </Link>
-                    </span>
-                  </div>
-                  <Input
-                    id="user-password"
-                    type="password"
-                    {...userForm.register("password")}
-                    className="mt-1"
-                  />
-                  {userForm.formState.errors.password && (
-                    <p className="text-sm text-red-500 mt-1">
-                      {userForm.formState.errors.password.message}
-                    </p>
-                  )}
-                </div>
-                <Button type="submit" className="w-full">
-                  Log in as User
-                </Button>
-              </form>
-            </TabsContent>
-            <TabsContent value="vendor">
-              <form
-                onSubmit={vendorForm.handleSubmit(onVendorSubmit)}
-                className="space-y-4"
-              >
-                <div>
-                  <Label htmlFor="vendor-email">Vendor Email</Label>
-                  <Input
-                    id="vendor-email"
-                    type="email"
-                    {...vendorForm.register("email")}
-                    className="mt-1"
-                  />
-                  {vendorForm.formState.errors.email && (
-                    <p className="text-sm text-red-500 mt-1">
-                      {vendorForm.formState.errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="vendor-password">Password</Label>
-                    <span>
-                      <Link
-                        to="/forget-password"
-                        className="text-red-500 text-sm"
-                      >
-                        Forgot password?
-                      </Link>
-                    </span>
-                  </div>
-                  <Input
-                    id="vendor-password"
-                    type="password"
-                    {...vendorForm.register("password")}
-                    className="mt-1"
-                  />
-                  {vendorForm.formState.errors.password && (
-                    <p className="text-sm text-red-500 mt-1">
-                      {vendorForm.formState.errors.password.message}
-                    </p>
-                  )}
-                </div>
-                <Button type="submit" className="w-full">
-                  Log in as Vendor
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
+            <div>
+              <Label htmlFor="user-email">Email</Label>
+              <Input
+                id="user-email"
+                type="email"
+                {...userForm.register("email")}
+                className="mt-1"
+              />
+              {userForm.formState.errors.email && (
+                <p className="text-sm text-red-500 mt-1">
+                  {userForm.formState.errors.email.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="user-password">Password</Label>
+                <span>
+                  <Link to="/forget-password" className="text-red-500 text-sm">
+                    Forgot password?
+                  </Link>
+                </span>
+              </div>
+              <Input
+                id="user-password"
+                type="password"
+                {...userForm.register("password")}
+                className="mt-1"
+              />
+              {userForm.formState.errors.password && (
+                <p className="text-sm text-red-500 mt-1">
+                  {userForm.formState.errors.password.message}
+                </p>
+              )}
+            </div>
+            <Button type="submit" className="w-full">
+              {isLoading ? <Loader /> : "Log in as User"}
+            </Button>
+          </form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-500">
