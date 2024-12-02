@@ -1,4 +1,7 @@
+import { DashboardLayout } from "@/layout/DashboardLayout";
 import RootLayout from "@/layout/RootLayout";
+import { Login } from "@/pages/Auth/Login/Login";
+import Signup from "@/pages/Auth/Signup/Signup";
 import Error from "@/pages/Error/Error";
 import Home from "@/pages/Home/Home";
 import { createBrowserRouter } from "react-router";
@@ -14,6 +17,19 @@ const router = createBrowserRouter([
                 element: <Home />
             }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login />
+    },
+    {
+        path: "/signup",
+        element: <Signup />
+    },
+    {
+        path: "/dashboard",
+        element: <DashboardLayout />,
+        errorElement: <Error />,
     }
 ])
 
