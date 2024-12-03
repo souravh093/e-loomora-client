@@ -11,6 +11,7 @@ import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersR
 import Inventory from "@/pages/Dashboard/Vendor/Inventory/Inventory";
 import Orders from "@/pages/Dashboard/Vendor/Orders/Orders";
 import AddProduct from "@/pages/Dashboard/Vendor/ProductsManagement/AddProduct/AddProduct";
+import EditProduct from "@/pages/Dashboard/Vendor/ProductsManagement/EditProduct/EditProduct";
 import Error from "@/pages/Error/Error";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
 import Home from "@/pages/Home/Home";
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "vendor/products/add",
         element: <AddProduct />,
+      },
+      {
+        path: "vendor/edit-product",
+        element: <EditProduct />,
       },
       {
         path: "vendor/reviews",
