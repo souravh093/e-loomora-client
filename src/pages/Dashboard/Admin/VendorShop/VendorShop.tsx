@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Avatar from "@/components/shared/Avatar";
-import { DeleteUser } from "@/components/shared/modal/DeleteUser";
 import Pagination from "@/components/shared/Pagination";
 import { SkeletonLoading } from "@/components/shared/Skeleton";
 import {
@@ -12,10 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
-import {
-  useGetUsersQuery,
-  useUpdateUsersMutation,
-} from "@/redux/api/features/userApi";
+import { useGetShopsQuery, useUpdateShopMutation } from "@/redux/api/features/shopApi";
 import { TUser } from "@/types/user.type";
 import { useState } from "react";
 
@@ -30,7 +26,7 @@ const TABLE_HEAD = [
 
 const VendorShop = () => {
   const [page, setPage] = useState(1);
-  const [updateStatus] = useUpdateUsersMutation();
+  const [updateStatus] = useUpdateShopMutation();
 
   const query = [
     {
@@ -39,7 +35,8 @@ const VendorShop = () => {
     },
   ];
 
-  const { data: usersData, isLoading, isFetching } = useGetUsersQuery(query);
+  const { data: shopsData, isLoading, isFetching } = useGetShopsQuery(query);
+
 
   const handleStatus = async (status: string, id: string) => {
     try {
@@ -75,61 +72,92 @@ const VendorShop = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {usersData?.data?.result.length < 1 ? (
-            <span>No Users found</span>
+          {shopsData?.data?.length < 1 ? (
+            <span>No shop found</span>
           ) : isLoading || isFetching ? (
             <SkeletonLoading />
           ) : (
-            usersData?.data?.result?.map((user: TUser, index: number) => (
-              <TableRow key={user.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {user?.image ? (
-                      <img
-                        src={user.image}
-                        alt="user image"
-                        className="h-10 w-10 rounded-full object-cover"
-                      />
-                    ) : (
-                      <Avatar />
-                    )}
-                    <span>{user.name}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <span className="bg-[#D6FFD2] text-[#069803] text-sm rounded-[40px] py-[4px] px-[10px] hover:bg-[#cdfac9]">
-                    {user.role}
-                  </span>
-                </TableCell>
+            shopsData?.data?.map(
+              (
+                {
+                  id,
+                  logoUrl,
+                  name,
+                  status,
+                  owner,
+                  createdAt,
+                }: {
+                  owner: TUser;
+                  id: string;
+                  logoUrl: string;
+                  name: string;
+                  status: string;
+                  createdAt: string;
+                },
+                index: number
+              ) => (
+                <TableRow key={id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>
+                    {new Date(createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {logoUrl ? (
+                        <img
+                          src={logoUrl}
+                          alt="user image"
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <Avatar />
+                      )}
+                      <span>{name}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {owner.image ? (
+                        <img
+                          src={owner.image}
+                          alt="user image"
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <Avatar />
+                      )}
+                      <span>{owner.name}</span>
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <select
-                    onChange={(event) =>
-                      handleStatus(event.target.value, user.id)
-                    }
-                    defaultValue={user.status}
-                    className="outline-none px-2 py-[2px] ring-1 ring-gray-400 rounded-md"
-                  >
-                    <option value={"SUSPENDED"}>SUSPENDED</option>
-                    <option value={"ACTIVE"}>ACTIVE</option>
-                  </select>
-                </TableCell>
-                <TableCell>
-                  <DeleteUser id={user.id} />
-                </TableCell>
-              </TableRow>
-            ))
+                  <TableCell>
+                    <select
+                      onChange={(event) => handleStatus(event.target.value, id)}
+                      defaultValue={status}
+                      className="outline-none px-2 py-[2px] ring-1 ring-gray-400 rounded-md"
+                    >
+                      <option value={"RESTRICTED"}>RESTRICTED</option>
+                      <option value={"ACTIVE"}>ACTIVE</option>
+                    </select>
+                  </TableCell>
+
+                  <TableCell>
+                    <span className="bg-[#D6FFD2] text-[#069803] text-sm rounded-[40px] py-[4px] px-[10px] hover:bg-[#cdfac9]">
+                      {owner.status}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              )
+            )
           )}
         </TableBody>
       </Table>
 
-      {usersData?.data?.meta?.page > 1 && (
+      {shopsData?.data?.meta?.page > 1 && (
         <div className="flex justify-end py-5">
           <Pagination
             active={page}
-            totalPages={usersData?.data?.meta?.page}
+            totalPages={shopsData?.data?.meta?.page}
             onPageChange={setPage}
           />
         </div>
