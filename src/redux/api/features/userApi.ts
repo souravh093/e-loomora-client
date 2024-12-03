@@ -1,0 +1,35 @@
+import { QueryItem } from "@/types/global.types";
+import { baseApi } from "../baseApi";
+
+const userApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: (query) => {
+        const params = new URLSearchParams();
+
+        if (query) {
+          query.forEach((item: QueryItem) => {
+            params.append(item.name, item.value);
+          });
+        }
+
+        return {
+          url: "/users",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["Users"],
+    }),
+    updateUsers: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/users/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+  }),
+});
+
+export const { useGetUsersQuery, useUpdateUsersMutation } = userApi;
