@@ -1,134 +1,32 @@
-import { TMenuItem } from "@/types/navitems.type";
+
+import { adminNavItems, userNavItems, vendorNavItems } from "@/constant/NavigationItems";
+import { Role } from "@/constant/role.constant";
+import { selectCurrentUser } from "@/redux/api/features/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 import {
-  BookUser,
-  BriefcaseBusiness,
   ChevronDown,
-  Home,
-  IdCard,
-  LineChart,
-  Newspaper,
-  Settings,
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
-
-const navItems: TMenuItem[] = [
-  {
-    name: "Dashboard",
-    to: "/dashboard",
-    icon: <Home className="h-4 w-4" />,
-  },
-  {
-    name: "Portfolio",
-    to: "/dashboard/all-projects",
-    icon: <BriefcaseBusiness className="h-4 w-4" />,
-    subMenu: [
-      {
-        name: "All Projects",
-        to: "/dashboard/all-projects",
-      },
-      {
-        name: "Add Project",
-        to: "/dashboard/add-project",
-      },
-      {
-        name: "Categories",
-        to: "/dashboard/categories",
-      },
-    ],
-  },
-  {
-    name: "Blogs",
-    to: "/dashboard/all-blogs",
-    icon: <Newspaper className="w-4 h-4" />,
-    subMenu: [
-      {
-        name: "All Blogs",
-        to: "/dashboard/all-blogs",
-      },
-      {
-        name: "Add Blog",
-        to: "/dashboard/add-blog",
-      },
-      {
-        name: "Categories",
-        to: "/dashboard/blog-categories",
-      },
-    ],
-  },
-  {
-    name: "About",
-    to: "/dashboard/about",
-    icon: <IdCard className="w-4 h-4" />,
-    subMenu: [
-      {
-        name: "Experience",
-        to: "/dashboard/experience",
-      },
-      {
-        name: "Education",
-        to: "/dashboard/education",
-      },
-      {
-        name: "Skills",
-        to: "/dashboard/skills",
-      },
-      {
-        name: "Achievements",
-        to: "/dashboard/achievements",
-      },
-      {
-        name: "Language",
-        to: "/dashboard/language",
-      },
-      {
-        name: "Goals & Interests",
-        to: "/dashboard/goals-interests",
-      },
-      {
-        name: "Add CV",
-        to: "/dashboard/add-cv",
-      },
-    ],
-  },
-  {
-    name: "Contact",
-    to: "/dashboard/contact",
-    icon: <BookUser className="w-4 h-4" />,
-  },
-  {
-    name: "Our Success",
-    to: "/dashboard/success",
-    icon: <LineChart className="w-4 h-4" />,
-  },
-  {
-    name: "Settings",
-    to: "/dashboard/settings",
-    icon: <Settings className="w-4 h-4" />,
-    subMenu: [
-      {
-        name: "General Settings",
-        to: "/dashboard/general-settings",
-      },
-      {
-        name: "Appearance",
-        to: "/dashboard/appearance",
-      },
-      {
-        name: "Social Media",
-        to: "/dashboard/social-media",
-      },
-    ],
-  },
-];
-
 const DashboardNavigation = () => {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const role = currentUser ? currentUser.role : null;
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
   const toggleSubMenu = (name: string) => {
     setOpenMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   };
+
+  let navItems = [];
+
+  if(role === Role.admin) {
+    navItems = adminNavItems;
+  }else if(role === Role.vendor) {
+    navItems = vendorNavItems;
+  }else {
+    navItems = userNavItems;
+  }
 
   return (
     <nav className="grid items-start gap-2 px-2 text-sm font-medium lg:px-4">
