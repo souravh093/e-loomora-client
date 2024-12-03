@@ -45,19 +45,9 @@ const vendorNavItems: TMenuItem[] = [
     icon: <Home className="h-4 w-4" />,
   },
   {
-    name: "Products Management",
-    to: "/dashboard/vendor/products",
+    name: "Add Product",
+    to: "/dashboard/vendor/products/add",
     icon: <Store className="w-4 h-4" />,
-    subMenu: [
-      {
-        name: "All Products",
-        to: "/dashboard/vendor/products",
-      },
-      {
-        name: "Add Product",
-        to: "/dashboard/vendor/products/add",
-      },
-    ],
   },
   {
     name: "Customers Reviews",

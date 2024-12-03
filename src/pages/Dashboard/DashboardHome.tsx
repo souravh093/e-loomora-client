@@ -12,7 +12,6 @@ const DashboardHome = () => {
   const role = currentUser ? currentUser.role : null;
   const id = currentUser ? currentUser.id : null;
   const { data: shopData } = useGetShopByUserIdQuery(id);
-  console.log(shopData);
   return (
     <>
       {role === Role.admin ? (

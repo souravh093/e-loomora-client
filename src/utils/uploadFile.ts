@@ -21,3 +21,26 @@ export const uploadImageToFirebase = async (
     setIsImageUploading(false);
   }
 };
+
+export const uploadImagesToFirebase = async (
+  imageFiles: FileList,
+  setIsImageUploading: (isUploading: boolean) => void
+): Promise<string[]> => {
+  const urls: string[] = [];
+  setIsImageUploading(true);
+
+  try {
+    for (const file of Array.from(imageFiles)) {
+      const url = await uploadImageToFirebase(file, setIsImageUploading);
+      if (url) {
+        urls.push(url);
+      }
+    }
+  } catch (error) {
+    console.log("Error uploading images", error);
+  } finally {
+    setIsImageUploading(false);
+  }
+
+  return urls;
+};
