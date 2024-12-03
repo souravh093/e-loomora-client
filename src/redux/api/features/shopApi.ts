@@ -22,6 +22,14 @@ const shopApi = baseApi.injectEndpoints({
       providesTags: ["Shops"],
     }),
 
+    getShopByUserId: builder.query({
+      query: (id) => ({
+        url: `/shops/user/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Shops"],
+    }),
+
     updateShop: builder.mutation({
       query: ({ id, data }) => ({
         url: `/shops/${id}`,
@@ -30,7 +38,21 @@ const shopApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Shops"],
     }),
+
+    createShop: builder.mutation({
+      query: (data) => ({
+        url: "/shops",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Shops"],
+    }),
   }),
 });
 
-export const { useGetShopsQuery, useUpdateShopMutation } = shopApi;
+export const {
+  useGetShopsQuery,
+  useUpdateShopMutation,
+  useCreateShopMutation,
+  useGetShopByUserIdQuery,
+} = shopApi;

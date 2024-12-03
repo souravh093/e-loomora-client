@@ -9,12 +9,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { logout } from "@/redux/api/features/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { CircleUser, Menu, Package2 } from "lucide-react";
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
 
 
 export function DashboardLayout() {
+  const navigate = useNavigate();
   const {pathname} = useLocation();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate('/login')
+  }
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -61,7 +70,7 @@ export function DashboardLayout() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
