@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Avatar from "@/components/shared/Avatar";
+import { DeleteUser } from "@/components/shared/modal/DeleteUser";
 import Pagination from "@/components/shared/Pagination";
 import { SkeletonLoading } from "@/components/shared/Skeleton";
 import {
@@ -16,7 +17,6 @@ import {
   useUpdateUsersMutation,
 } from "@/redux/api/features/userApi";
 import { TUser } from "@/types/user.type";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const TABLE_HEAD = ["S/N", "Name", "Email", "Role", "Status", "Action"];
@@ -24,6 +24,7 @@ const TABLE_HEAD = ["S/N", "Name", "Email", "Role", "Status", "Action"];
 const Users = () => {
   const [page, setPage] = useState(1);
   const [updateStatus] = useUpdateUsersMutation();
+
 
   const query = [
     {
@@ -56,6 +57,7 @@ const Users = () => {
       });
     }
   };
+
 
   return (
     <div className="w-full">
@@ -110,9 +112,7 @@ const Users = () => {
                   </select>
                 </TableCell>
                 <TableCell>
-                  <button>
-                    <Trash2 className="hover:text-red-800 text-red-500 text-sm rounded-[40px] py-[4px]" />
-                  </button>
+                  <DeleteUser id={user.id} />
                 </TableCell>
               </TableRow>
             ))
