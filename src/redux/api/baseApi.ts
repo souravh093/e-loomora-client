@@ -1,8 +1,12 @@
-import { BaseQueryFn, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  BaseQueryFn,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logout } from "./features/authSlice"; // Import your logout action
 
-const baseQuery = fetchBaseQuery({ 
+const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
@@ -13,7 +17,7 @@ const baseQuery = fetchBaseQuery({
     }
 
     return headers;
-  }
+  },
 });
 
 const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
@@ -29,6 +33,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Users", "Shops", "Categories"],
+  tagTypes: ["Users", "Shops", "Categories", "Payments"],
   endpoints: () => ({}),
 });

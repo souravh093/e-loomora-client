@@ -110,6 +110,7 @@ const CreateCategory = () => {
                 type="text"
                 {...categoryForm.register("name")}
                 className="mt-1"
+                required
               />
               {categoryForm.formState.errors.name && (
                 <p className="text-sm text-red-500 mt-1">
@@ -125,6 +126,7 @@ const CreateCategory = () => {
                 accept="image/*"
                 onChange={handleUserImageChange}
                 className="mt-1"
+                required
               />
               {categoryForm.formState.errors.image && (
                 <p className="text-sm text-red-500 mt-1">
