@@ -16,6 +16,7 @@ import Error from "@/pages/Error/Error";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
 import Home from "@/pages/Home/Home";
 import ResetPassword from "@/pages/ResetPassword/ResetPassword";
+import PrivateRoute from "@/private/PrivateRoute";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <Error />,
     children: [
       {
