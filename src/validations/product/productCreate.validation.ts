@@ -30,3 +30,26 @@ export const formSchema = z.object({
       "Each image must be no larger than 5MB."
     ),
 });
+
+export const editProductFormSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  stock: z.number().optional(),
+  category: z.string().optional(),
+});
+
+export const imageSchema = z.object({
+  image: z
+    .any()
+    .refine((file) => file instanceof File, "Image is required")
+    .refine((file) => file?.size <= 5 * 1024 * 1024, `Max file size is 5MB.`)
+    .refine(
+      (file) =>
+        ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+          file?.type
+        ),
+      "Only .jpg, .jpeg, .png and .webp formats are supported."
+    )
+    .optional(),
+});

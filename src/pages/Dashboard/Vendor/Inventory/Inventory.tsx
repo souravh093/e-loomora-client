@@ -153,9 +153,8 @@ const Inventory = () => {
                     <span>{categoryName}</span>
                   </TableCell>
                   <TableCell>
-                    {/* <DeleteUser id={user.id} /> */}
                     <div className="flex items-center gap-3">
-                      <Link to={"/dashboard/vendor/edit-product"}>
+                      <Link to={`/dashboard/vendor/edit-product/${id}`}>
                         <Button variant={"outline"}>
                           <FilePenLine />
                         </Button>

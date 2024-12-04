@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -18,35 +17,34 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import { formSchema } from "@/validations/product/productCreate.validation";
+import { editProductFormSchema } from "@/validations/product/productCreate.validation";
 import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
-import { uploadImagesToFirebase } from "@/utils/uploadFile";
-import { useCreateProductMutation } from "@/redux/api/features/productApi";
-import { useAppSelector } from "@/redux/hooks";
-import { selectCurrentUser } from "@/redux/api/features/authSlice";
-import { useGetShopByUserIdQuery } from "@/redux/api/features/shopApi";
+import {
+  useDeleteProductImageMutation,
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "@/redux/api/features/productApi";
+import { useParams } from "react-router";
+import { ImageUpload } from "./ImageUpload/ImageUpload";
+import { CircleX } from "lucide-react";
 
 export default function EditProduct() {
-
-  const currentUser = useAppSelector(selectCurrentUser);
-  const userId = currentUser ? currentUser.id : null;
-  const { data: shopData } = useGetShopByUserIdQuery(userId);
-
-
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const [isImageUploading, setIsImageUploading] = useState(false);
+  const { id } = useParams();
+  const { data: productData } = useGetProductByIdQuery(id);
+  const [deleteImage] = useDeleteProductImageMutation();
 
   const { data: categoriesData, isLoading: productLoading } =
     useGetCategoriesQuery(undefined);
-  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [updateProduct, { isLoading }] = useUpdateProductMutation();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof editProductFormSchema>>({
+    resolver: zodResolver(editProductFormSchema),
     defaultValues: {
       name: "",
       price: 0,
@@ -55,35 +53,18 @@ export default function EditProduct() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    let downloadUrls: string[] = [];
-    if (values.images && values.images.length > 0) {
-      downloadUrls = await uploadImagesToFirebase(
-        values.images,
-        setIsImageUploading
-      );
-      if (downloadUrls.length > 0) {
-        console.log("Images uploaded successfully:", downloadUrls);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Image upload failed",
-        });
-      }
-    }
-
+  const onSubmit = async (values: z.infer<typeof editProductFormSchema>) => {
+    console.log("clicked"); // Debugging step
     const productData = {
       name: values.name,
       description: values.description,
       price: values.price,
       inventoryCount: values.stock,
       categoryId: values.category,
-      shopId: shopData?.data.id,
-      productImage: downloadUrls,
     };
 
     try {
-      const response = await createProduct(productData).unwrap();
+      const response = await updateProduct({ id, data: productData }).unwrap();
 
       if (response.success) {
         toast({
@@ -94,7 +75,7 @@ export default function EditProduct() {
         form.reset();
       }
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       toast({
         variant: "destructive",
         title: error.data.message,
@@ -102,18 +83,70 @@ export default function EditProduct() {
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const newImagePreviews = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setImagePreview((prev) => [...prev, ...newImagePreviews]);
+  useEffect(() => {
+    if (productData?.data) {
+      form.reset({
+        name: productData.data.name,
+        price: productData.data.price,
+        stock: productData.data.inventoryCount,
+        category: productData.data.categoryId,
+        description: productData.data.description,
+      });
+    }
+  }, [productData, form]);
+
+  const handleDeleteProductImage = async (id: string) => {
+    try {
+      const response = await deleteImage(id).unwrap();
+      if (response.success) {
+        toast({
+          variant: "default",
+          title: response.message,
+        });
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
     }
   };
 
   return (
     <div className="container mx-auto py-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+        <div className="col-span-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+          {productData?.data?.productImage?.map(
+            (image: { url: string; id: string }) => (
+              <div key={image.id} className="relative">
+                <img
+                  key={image.id}
+                  src={image.url}
+                  alt={"product-image"}
+                  className="w-full h-44 rounded-lg border border-green-400 object-cover"
+                />
+                <span className="absolute right-3 top-2">
+                  <Button
+                    onClick={() => handleDeleteProductImage(image.id)}
+                    size={"icon"}
+                    variant="destructive"
+                  >
+                    <CircleX />
+                  </Button>
+                </span>
+              </div>
+            )
+          )}
+        </div>
+
+        <div className="col-span-1">
+          <ImageUpload id={id} />
+        </div>
+      </div>
+
+      <SelectSeparator className="my-8" />
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,7 +157,11 @@ export default function EditProduct() {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter product name" {...field} />
+                    <Input
+                      defaultValue={productData?.data?.name}
+                      placeholder="Enter product name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -221,43 +258,8 @@ export default function EditProduct() {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <FormItem>
-                <FormLabel>Product Images</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) => {
-                      handleImageChange(e);
-                      onChange(e.target.files);
-                    }}
-                    {...rest}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {imagePreview.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
-              {imagePreview.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Preview ${index + 1}`}
-                  className="w-full h-40 object-cover rounded-lg"
-                />
-              ))}
-            </div>
-          )}
           <Button type="submit" className="w-full md:w-auto">
-            {isImageUploading || productLoading ? "Adding Product..." : "Add Product"}
+            {productLoading ? "Update Product..." : "Update Product"}
           </Button>
         </form>
       </Form>
