@@ -9,6 +9,7 @@ import VendorShop from "@/pages/Dashboard/Admin/VendorShop/VendorShop";
 import DashboardHome from "@/pages/Dashboard/DashboardHome";
 import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersReview";
 import Inventory from "@/pages/Dashboard/Vendor/Inventory/Inventory";
+import OrderDetailsPage from "@/pages/Dashboard/Vendor/Orders/OrderDeatils/OrderDetails";
 import Orders from "@/pages/Dashboard/Vendor/Orders/Orders";
 import AddProduct from "@/pages/Dashboard/Vendor/ProductsManagement/AddProduct/AddProduct";
 import EditProduct from "@/pages/Dashboard/Vendor/ProductsManagement/EditProduct/EditProduct";
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
         path: "vendor/orders",
         element: <Orders />,
       },
+      {
+        path: "vendor/orders/details/:id",
+        element: <OrderDetailsPage />,
+      }
     ],
   },
 ]);

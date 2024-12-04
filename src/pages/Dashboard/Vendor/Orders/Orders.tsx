@@ -17,6 +17,7 @@ import { useGetShopByUserIdQuery } from "@/redux/api/features/shopApi";
 import { useAppSelector } from "@/redux/hooks";
 import { IOrder } from "@/types/product.type";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const TABLE_HEAD = [
   "S/N",
@@ -105,7 +106,9 @@ const Order = () => {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Button variant={"outline"}>View Details</Button>
+                    <Link to={`/dashboard/vendor/orders/details/${id}`}>
+                      <Button variant={"outline"}>View Details</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               )
