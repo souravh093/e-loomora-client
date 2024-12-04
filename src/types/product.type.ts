@@ -43,3 +43,35 @@ export interface IReview {
   user: TUser;
   product: IProduct;
 }
+
+export interface IShop {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  user?: TUser;
+}
+
+export interface IOrderItem {
+  id: string;
+  orderId: string;
+  price: number;
+  quantity: number;
+  productId: string;
+}
+
+export interface IOrder {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  shopId: string;
+  status: string;
+  totalAmount: number;
+  user: TUser;
+  shop: IShop;
+  orderItems: IOrderItem[];
+}
