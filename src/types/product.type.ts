@@ -1,3 +1,5 @@
+import { TUser } from "./user.type";
+
 export interface IProductImage {
   url: string;
 }
@@ -29,4 +31,15 @@ export interface IProduct {
   shopId: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IReview {
+  id: string;
+  content: string;
+  rating: number;
+  productId: string;
+  userId: string;
+  createdAt: string;
+  user: TUser;
+  product: IProduct;
 }
