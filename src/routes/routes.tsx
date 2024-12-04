@@ -2,6 +2,7 @@ import { DashboardLayout } from "@/layout/DashboardLayout";
 import RootLayout from "@/layout/RootLayout";
 import Login from "@/pages/Auth/Login/Login";
 import Signup from "@/pages/Auth/Signup/Signup";
+import Checkout from "@/pages/Checkout/Checkout";
 import ProductCategory from "@/pages/Dashboard/Admin/ProductCategory/ProductCategory";
 import TransactionsHistory from "@/pages/Dashboard/Admin/TransactionsHistory/TransactionsHistory";
 import Users from "@/pages/Dashboard/Admin/Users/Users";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      }
     ],
   },
   {
