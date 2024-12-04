@@ -2,7 +2,6 @@
 import Avatar from "@/components/shared/Avatar";
 import Pagination from "@/components/shared/Pagination";
 import { SkeletonLoading } from "@/components/shared/Skeleton";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,11 +12,10 @@ import {
 } from "@/components/ui/table";
 import { selectCurrentUser } from "@/redux/api/features/authSlice";
 import { useGetOrdersQuery } from "@/redux/api/features/orderApi";
-import { useGetShopByUserIdQuery } from "@/redux/api/features/shopApi";
 import { useAppSelector } from "@/redux/hooks";
 import { IOrder } from "@/types/product.type";
 import { useState } from "react";
-import { Link } from "react-router";
+
 
 const TABLE_HEAD = [
   "S/N",
@@ -26,19 +24,19 @@ const TABLE_HEAD = [
   "Customer Name",
   "Total Amount",
   "Status",
-  "Order Details",
 ];
 
-const Order = () => {
+const CustomerOrder = () => {
   const [page, setPage] = useState(1);
   const currentUser = useAppSelector(selectCurrentUser);
   const id = currentUser ? currentUser.id : null;
-  const { data: shopData } = useGetShopByUserIdQuery(id);
 
   const query = [
     {
       name: "filter",
-      value: JSON.stringify({ shopId: shopData?.data?.id }),
+      value: JSON.stringify({
+        userId: id,
+      }),
     },
     {
       name: "page",
@@ -47,6 +45,7 @@ const Order = () => {
   ];
 
   const { data: orderData, isLoading, isFetching } = useGetOrdersQuery(query);
+
 
   return (
     <div className="w-full">
@@ -103,11 +102,6 @@ const Order = () => {
                       {status}
                     </span>
                   </TableCell>
-                  <TableCell>
-                    <Link to={`/dashboard/vendor/orders/details/${id}`}>
-                      <Button variant={"outline"}>View Details</Button>
-                    </Link>
-                  </TableCell>
                 </TableRow>
               )
             )
@@ -128,4 +122,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default CustomerOrder;

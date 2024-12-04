@@ -6,6 +6,7 @@ import ProductCategory from "@/pages/Dashboard/Admin/ProductCategory/ProductCate
 import TransactionsHistory from "@/pages/Dashboard/Admin/TransactionsHistory/TransactionsHistory";
 import Users from "@/pages/Dashboard/Admin/Users/Users";
 import VendorShop from "@/pages/Dashboard/Admin/VendorShop/VendorShop";
+import CustomerOrder from "@/pages/Dashboard/Customer/CustomerOrder/CustomerOrder";
 import DashboardHome from "@/pages/Dashboard/DashboardHome";
 import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersReview";
 import Inventory from "@/pages/Dashboard/Vendor/Inventory/Inventory";
@@ -104,6 +105,12 @@ const router = createBrowserRouter([
       {
         path: "vendor/orders/details/:id",
         element: <OrderDetailsPage />,
+      },
+
+      // Customer Routes
+      {
+        path: "user/orders",
+        element: <CustomerOrder />
       }
     ],
   },
