@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const addToCart = () => {
     const cart = {
       id: product.id,

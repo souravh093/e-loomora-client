@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import { Input } from "../ui/input";
 import Container from "./Container";
 import Cart from "./Cart";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
@@ -21,8 +22,16 @@ const Navbar = () => {
           <NavLink to={"/"}>Recent Product</NavLink>
         </div>
         <div className="flex items-center gap-4">
-          <NavLink to={"/login"}>Sign In</NavLink>
-          <NavLink to={"/signup"}>Sign Up</NavLink>
+          <NavLink to={"/login"}>
+            <Button variant={"outline"}>
+              Login
+            </Button>
+          </NavLink>
+          <NavLink to={"/signup"}>
+            <Button className="bg-yellow-500 hover:bg-yellow-600">
+              Register
+            </Button>
+          </NavLink>
 
           <Cart />
         </div>
