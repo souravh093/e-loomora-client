@@ -77,6 +77,7 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useCreateProductMutation,
   useGetProductsQuery,
+  useLazyGetProductsQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
   useGetProductByIdQuery,
