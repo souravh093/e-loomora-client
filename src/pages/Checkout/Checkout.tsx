@@ -16,8 +16,11 @@ import Container from "@/components/shared/Container";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAppSelector } from "@/redux/hooks";
 import CartCard from "@/components/shared/CartCard";
+import { useNavigate } from "react-router";
 
 const Checkout = () => {
+
+  const navigate = useNavigate();
   const cartProducts = useAppSelector((state) => state.cart.items);
 
   const totalPrice = cartProducts.reduce((acc, item) => {
@@ -38,6 +41,7 @@ const Checkout = () => {
 
   const onSubmit = (data: z.infer<typeof shippingFromValidation>) => {
     console.log(data);
+    navigate("/payment", {state: {shippingData: data}});
   };
 
   return (

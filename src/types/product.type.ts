@@ -29,6 +29,7 @@ export interface IProduct {
   review: IReview[];
   categoryId: string;
   shopId: string;
+  shop: IShop;
   createdAt: string;
   updatedAt: string;
 }

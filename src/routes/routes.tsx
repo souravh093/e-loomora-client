@@ -18,6 +18,8 @@ import EditProduct from "@/pages/Dashboard/Vendor/ProductsManagement/EditProduct
 import Error from "@/pages/Error/Error";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
 import Home from "@/pages/Home/Home";
+import Payment from "@/pages/Payment/Payment";
+import ProductDetails from "@/pages/ProductDetails/ProductDetails";
 import ResetPassword from "@/pages/ResetPassword/ResetPassword";
 import PrivateRoute from "@/private/PrivateRoute";
 import { createBrowserRouter } from "react-router";
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />
+      },
+      {
+        path: "/product-details/:id",
+        element: <ProductDetails />
       }
     ],
   },

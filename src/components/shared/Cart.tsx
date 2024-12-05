@@ -9,8 +9,11 @@ import { useNavigate } from "react-router";
 import { useAppSelector } from "@/redux/hooks";
 import CartCard from "./CartCard";
 import { ShoppingCart } from "lucide-react";
+import { selectCurrentUser, useCurrentToken } from "@/redux/api/features/authSlice";
 
 const Cart = () => {
+  const token = useAppSelector(useCurrentToken);
+  const user = useAppSelector(selectCurrentUser);
   const navigate = useNavigate();
   const cartProducts = useAppSelector((state) => state.cart.items);
   const totalPrice = cartProducts.reduce((acc, item) => {
@@ -58,7 +61,7 @@ const Cart = () => {
             <div className="mt-4 flex gap-2">
               <Button
                 disabled={isDisabled || isOutOfStock}
-                onClick={() => navigate("/checkout")}
+                onClick={() => navigate(token && user?.role === "USER" ? "/checkout" : "/login")}
                 className={`flex-1 bg-yellow-500 hover:bg-yellow-600 cursor-pointer ${
                   isDisabled || (isOutOfStock && "cursor-not-allowed")
                 }`}

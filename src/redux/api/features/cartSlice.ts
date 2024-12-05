@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface CartItem {
   id: string;
+  shopId: string;
   name: string;
   price: number;
   quantity: number;
