@@ -1,6 +1,7 @@
 import { TUser } from "./user.type";
 
 export interface IProductImage {
+  id: string;
   url: string;
 }
 
@@ -49,7 +50,8 @@ export interface IShop {
   id: string;
   name: string;
   description: string;
-  logo: string;
+  follower: number;
+  logoUrl: string;
   userId: string;
   createdAt: string;
   updatedAt: string;

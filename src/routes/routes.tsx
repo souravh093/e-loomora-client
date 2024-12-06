@@ -20,8 +20,11 @@ import Error from "@/pages/Error/Error";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
 import Home from "@/pages/Home/Home";
 import Payment from "@/pages/Payment/Payment";
+import { ProductComparison } from "@/pages/ProductComparision/ProductComparision";
 import ProductDetails from "@/pages/ProductDetails/ProductDetails";
 import ResetPassword from "@/pages/ResetPassword/ResetPassword";
+import Shop from "@/pages/Shop/Shop";
+import ShopProduct from "@/pages/ShopProduct/ShopProduct";
 import PrivateRoute from "@/private/PrivateRoute";
 import { createBrowserRouter } from "react-router";
 
@@ -50,6 +53,18 @@ const router = createBrowserRouter([
       {
         path: "/all-products",
         element: <AllProducts />
+      },
+      {
+        path: "/shops",
+        element: <Shop />
+      },
+      {
+        path: "/shop-products/:id",
+        element: <ShopProduct />
+      },
+      {
+        path: "/comparison",
+        element: <ProductComparison />
       }
     ],
   },

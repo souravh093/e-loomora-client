@@ -37,8 +37,8 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <NavLink to={"/"}>Home</NavLink>
           <NavLink to={"/all-products"}>All Products</NavLink>
-          <NavLink to={"/"}>Product Comparison</NavLink>
-          <NavLink to={"/"}>Shop</NavLink>
+          <NavLink to={"/comparison"}>Comparison</NavLink>
+          <NavLink to={"/shops"}>Shop</NavLink>
           <NavLink to={"/"}>Recent Product</NavLink>
         </div>
         <div className="flex items-center gap-4">

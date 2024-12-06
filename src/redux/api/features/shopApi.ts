@@ -32,7 +32,7 @@ const shopApi = baseApi.injectEndpoints({
 
     getShopById: builder.query({
       query: (id) => ({
-        url: `/shops/user/${id}`,
+        url: `/shops/${id}`,
         method: "GET",
       }),
       providesTags: ["Shops"],
