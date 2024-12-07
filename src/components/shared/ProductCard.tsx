@@ -65,7 +65,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           <Badge className="absolute right-2 top-2 bg-black/60 hover:bg-black/70">
             {product.category.name}
           </Badge>
-          {product.discount && (
+          {product?.discount && (
             <Badge className="absolute left-2 top-2 bg-red-500 hover:bg-red-600">
               {product.discount}% OFF
             </Badge>

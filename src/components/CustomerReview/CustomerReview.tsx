@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -120,7 +118,9 @@ export function CustomerReviewForm({ productId }: { productId: string | undefine
             </FormItem>
           )}
         />
-        <Button type="submit">Submit Review</Button>
+        <Button type="submit">
+          {isLoading ? "Submitting..." : "Submit Review"}
+        </Button>
       </form>
     </Form>
   );

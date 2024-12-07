@@ -18,6 +18,7 @@ import CategoryProduct from "./CategoryProduct/CategoryProduct";
 import { CustomerReviewForm } from "@/components/CustomerReview/CustomerReview";
 import { useGetOrderByUserIdQuery } from "@/redux/api/features/orderApi";
 import { selectCurrentUser } from "@/redux/api/features/authSlice";
+import { Star } from "lucide-react";
 
 export default function ProductDetails() {
   const currentUser = useAppSelector(selectCurrentUser);
@@ -68,6 +69,22 @@ export default function ProductDetails() {
     });
   };
 
+  const renderStars = (rating: number) => {
+    return Array(5).fill(0).map((_, index) => (
+      <Star
+        key={index}
+        className={`w-4 h-4 ${index < Math.round(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+      />
+    ));
+  };
+
+  const discountedPrice = productDetails?.data.discount
+    ? productDetails?.data.price -
+      (productDetails?.data.price * productDetails?.data.discount) / 100
+    : productDetails?.data.price;
+
+
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8">
@@ -102,9 +119,20 @@ export default function ProductDetails() {
                 by {productDetails?.data?.shop?.name}
               </span>
             </div>
-            <p className="text-2xl font-semibold mb-4">
-              ৳{productDetails?.data?.price.toFixed(2)}
-            </p>
+            <div className="flex items-center">
+            {renderStars(productDetails?.data?.avgRating)}
+            <span className="ml-1 text-sm text-gray-600">({productDetails?.data?.review.length})</span>
+          </div>
+            <div>
+              <p className="text-xl font-bold text-primary">
+                ৳{discountedPrice}
+              </p>
+              {productDetails?.data?.discount && (
+                <p className="text-sm text-gray-500 line-through">
+                  ৳{productDetails?.data?.price}
+                </p>
+              )}
+            </div>
             <p className="mb-4">{productDetails?.data?.description}</p>
             <p className="mb-4">
               In stock: {productDetails?.data?.inventoryCount}
