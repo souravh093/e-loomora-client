@@ -28,6 +28,23 @@ const orderApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Orders"],
     }),
+    getOrderByUserId: builder.query({
+      query: (query) => {
+        const params = new URLSearchParams();
+
+        if (query) {
+          query.forEach((item: QueryItem) => {
+            params.append(item.name, item.value);
+          });
+        }
+
+        return {
+          url: "/orders/user",
+          method: "GET",
+          params: params,
+        };
+      },
+    }),
     createOrder: builder.mutation({
       query: (body) => ({
         url: "/orders",
@@ -43,4 +60,5 @@ export const {
   useGetOrdersQuery,
   useGetOrderByIdQuery,
   useCreateOrderMutation,
+  useGetOrderByUserIdQuery,
 } = orderApi;

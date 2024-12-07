@@ -24,6 +24,7 @@ export interface IProduct {
   description: string;
   price: number;
   discount?: number;
+  avgRating: number;
   inventoryCount: number;
   productImage?: IProductImage[];
   category: ICategory;

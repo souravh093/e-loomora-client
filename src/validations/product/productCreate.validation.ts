@@ -14,6 +14,7 @@ export const formSchema = z.object({
   category: z.string({
     required_error: "Please select a category.",
   }),
+  discount: z.number().optional(),
   images: z
     .custom<FileList>(
       (val) => val instanceof FileList,

@@ -15,10 +15,28 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
 import CategoryProduct from "./CategoryProduct/CategoryProduct";
+import { CustomerReviewForm } from "@/components/CustomerReview/CustomerReview";
+import { useGetOrderByUserIdQuery } from "@/redux/api/features/orderApi";
+import { selectCurrentUser } from "@/redux/api/features/authSlice";
 
 export default function ProductDetails() {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const userId = currentUser ? currentUser.id : null;
   const { id } = useParams();
   const { data: productDetails } = useGetProductByIdQuery(id);
+
+  const query = [
+    {
+      name: "userId",
+      value: userId,
+    },
+    {
+      name: "productId",
+      value: id,
+    },
+  ];
+
+  const { data: orderData } = useGetOrderByUserIdQuery(query);
 
   const dispatch = useAppDispatch();
   const cartProducts = useAppSelector((state) => state.cart.items);
@@ -102,7 +120,6 @@ export default function ProductDetails() {
       </div>
 
       <div>
-
         <h2 className="text-2xl font-bold mt-8 mb-4">Related Products</h2>
 
         <CategoryProduct
@@ -110,6 +127,12 @@ export default function ProductDetails() {
           categoryId={productDetails?.data?.categoryId}
         />
       </div>
+
+      {orderData?.data?.status === "COMPLETED" && (
+        <div className="my-10">
+          <CustomerReviewForm productId={id} />
+        </div>
+      )}
     </div>
   );
 }

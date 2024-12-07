@@ -51,6 +51,7 @@ export default function AddProduct() {
       name: "",
       price: 0,
       stock: 0,
+      discount: 0,
       category: "",
     },
   });
@@ -77,6 +78,7 @@ export default function AddProduct() {
       description: values.description,
       price: values.price,
       inventoryCount: values.stock,
+      ...(values.discount && { discount: values.discount }),
       categoryId: values.category,
       shopId: shopData?.data.id,
       productImage: downloadUrls,
@@ -182,6 +184,28 @@ export default function AddProduct() {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="discount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount in (%) (optional)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="0.00"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value || "0"))
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="stock"

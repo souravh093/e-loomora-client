@@ -17,6 +17,7 @@ import Orders from "@/pages/Dashboard/Vendor/Orders/Orders";
 import AddProduct from "@/pages/Dashboard/Vendor/ProductsManagement/AddProduct/AddProduct";
 import EditProduct from "@/pages/Dashboard/Vendor/ProductsManagement/EditProduct/EditProduct";
 import Error from "@/pages/Error/Error";
+import FlashSaleProducts from "@/pages/FlashSaleProducts/FlashSaleProducts";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
 import Home from "@/pages/Home/Home";
 import Payment from "@/pages/Payment/Payment";
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/comparison",
         element: <ProductComparison />
+      },
+      {
+        path: "/discount-products",
+        element: <FlashSaleProducts />
       }
     ],
   },
