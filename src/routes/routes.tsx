@@ -23,6 +23,7 @@ import Home from "@/pages/Home/Home";
 import Payment from "@/pages/Payment/Payment";
 import { ProductComparison } from "@/pages/ProductComparision/ProductComparision";
 import ProductDetails from "@/pages/ProductDetails/ProductDetails";
+import RecentViewed from "@/pages/RecentViewed/RecentViewed";
 import ResetPassword from "@/pages/ResetPassword/ResetPassword";
 import Shop from "@/pages/Shop/Shop";
 import ShopProduct from "@/pages/ShopProduct/ShopProduct";
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: "/discount-products",
         element: <FlashSaleProducts />
+      },
+      {
+        path: "/recent-viewed",
+        element: <RecentViewed />
       }
     ],
   },

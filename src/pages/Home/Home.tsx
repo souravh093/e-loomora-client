@@ -1,15 +1,21 @@
-import Banner from '@/components/HomeComponent/Banner'
-import FlashSale from '@/components/HomeComponent/FlashSale'
-import ShowProduct from '@/components/HomeComponent/ShowProduct'
+import Banner from "@/components/HomeComponent/Banner";
+import FlashSale from "@/components/HomeComponent/FlashSale";
+import PrioritizeProduct from "@/components/HomeComponent/PrioritizeProduct";
+import ShowProduct from "@/components/HomeComponent/ShowProduct";
+import { selectCurrentUser } from "@/redux/api/features/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const Home = () => {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const role = currentUser ? currentUser.role : null;
   return (
     <div>
       <Banner />
       <ShowProduct />
       <FlashSale />
+      {role === "USER" && <PrioritizeProduct />}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

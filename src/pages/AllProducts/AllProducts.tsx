@@ -28,14 +28,15 @@ import { cn } from "@/lib/utils";
 
 const AllProducts = () => {
   const location = useLocation();
-  const category = location.state?.category;
+  const categoryId = location.state?.categoryId;
+  const searchTermData = location.state?.searchTerm;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<{
     category: string;
     price: { min: number | null; max: number | null };
   }>({
-    category: category || "",
+    category: categoryId || "",
     price: { min: null, max: null },
   });
 
@@ -44,7 +45,7 @@ const AllProducts = () => {
   const query = [
     {
       name: "searchTerm",
-      value: searchTerm,
+      value: searchTerm || searchTermData || "",
     },
     {
       name: "orderBy",

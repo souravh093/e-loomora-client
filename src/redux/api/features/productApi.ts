@@ -21,6 +21,13 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: ["Products"],
     }),
+    getPrioritizeProducts: builder.query({
+      query: () => ({
+        url: "/products/prioritize",
+        method: "GET",
+      }),
+      providesTags: ["Products"],
+    }),
     createProduct: builder.mutation({
       query: (data) => ({
         url: `/products`,
@@ -83,4 +90,5 @@ export const {
   useGetProductByIdQuery,
   useCreateProductImageMutation,
   useDeleteProductImageMutation,
+  useGetPrioritizeProductsQuery,
 } = userApi;

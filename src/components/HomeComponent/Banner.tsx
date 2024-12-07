@@ -2,7 +2,7 @@
 import { Logs } from "lucide-react";
 import Container from "../shared/Container";
 import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import Loader from "../shared/Loader";
 import { Separator } from "../ui/separator";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -45,9 +45,17 @@ const slides = [
   },
 ];
 
+
+
 const Banner = () => {
+  const navigate = useNavigate();
   const { data: categories, isLoading } = useGetCategoriesQuery(undefined);
-  console.log(categories);
+
+  const handleCategoryClick = (id: string) => {
+    navigate('/all-products', { state: { categoryId: id } });
+  };
+
+
   return (
     <div className="bg-yellow-50 pb-5">
       <Container className="grid grid-cols-7">
@@ -63,8 +71,8 @@ const Banner = () => {
               {categories?.data?.map(
                 (category: { id: string; logo: string; name: string }) => (
                   <div key={category.id}>
-                    <Link
-                      to={`/category/${category.id}`}
+                    <button
+                      onClick={() => handleCategoryClick(category.id)}
                       className="px-4 py-4 flex items-center gap-4"
                     >
                       <img
@@ -73,7 +81,7 @@ const Banner = () => {
                         className="w-10 h-10"
                       />
                       <h1>{category.name}</h1>
-                    </Link>
+                    </button>
                     <div className="h-[1px] w-full bg-gray-300"></div>
                   </div>
                 )
@@ -109,7 +117,7 @@ const Banner = () => {
                     <p className="text-lg sm:text-xl lg:text-2xl mb-4 sm:mb-6">
                       {slide.description}
                     </p>
-                    <button className="bg-yellow-500 text-black py-3 font-bold px-10 rounded-3xl text-xl">
+                    <button onClick={() => navigate("/all-products")} className="bg-yellow-500 text-black py-3 font-bold px-10 rounded-3xl text-xl">
                       {slide.cta}
                     </button>
                   </div>

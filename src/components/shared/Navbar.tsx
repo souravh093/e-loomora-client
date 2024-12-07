@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { CircleUser } from "lucide-react";
+import { CircleUser, SearchIcon } from "lucide-react";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +25,13 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const searchTerm = formData.get("searchTerm") as string;
+    navigate("/all-products", { state: { searchTerm } });
+  }
+
   return (
     <nav className="py-3 border-y">
       <Container className="flex items-center justify-between">
@@ -32,14 +39,19 @@ const Navbar = () => {
           <h1 className="font-black text-xl text-yellow-500">LOOMORA</h1>
         </Link>
         <div>
-          <Input placeholder="Search" />
+          <form className="flex" onSubmit={handleSearchSubmit}>
+            <Input type="text" name="searchTerm" placeholder="Search" className="rounded-none" />
+            <Button type="submit" variant="secondary" className="bg-yellow-500 hover:bg-yellow-600 rounded-none px-3" size="icon">
+              <SearchIcon />
+            </Button>
+          </form>
         </div>
         <div className="flex items-center gap-4">
           <NavLink to={"/"}>Home</NavLink>
           <NavLink to={"/all-products"}>All Products</NavLink>
           <NavLink to={"/comparison"}>Comparison</NavLink>
           <NavLink to={"/shops"}>Shop</NavLink>
-          <NavLink to={"/"}>Recent Product</NavLink>
+          <NavLink to={"/recent-viewed"}>Recent Product</NavLink>
         </div>
         <div className="flex items-center gap-4">
           {token ? (
