@@ -29,7 +29,7 @@ const Payment = () => {
   const user = useAppSelector(selectCurrentUser);
   const id = user ? user.id : null;
   const location = useLocation();
-  const { shippingData } = location.state || {};
+  const { shippingData, discount } = location.state || {};
   const cartProducts = useAppSelector((state) => state.cart.items);
 
   const totalPrice = cartProducts.reduce((acc, item) => {
@@ -42,7 +42,9 @@ const Payment = () => {
     const orderData = {
       userId: id,
       shopId: cartProducts[0].shopId,
-      totalAmount: totalPrice,
+      totalAmount: discount
+        ? Number((totalPrice * (discount / 100)).toFixed(2))
+        : totalPrice,
       orderItem: cartProducts.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
@@ -122,7 +124,15 @@ const Payment = () => {
             disabled={isLoading}
           >
             <CreditCard className="mr-2 h-5 w-5" />
-            {isLoading ? "Processing..." : `Pay ৳${totalPrice.toFixed(2)}`}
+            {isLoading
+              ? "Processing..."
+              : `Pay ৳${
+                  discount
+                    ? `${(totalPrice * (discount / 100)).toFixed(
+                        2
+                      )} (Discount ${discount}%)`
+                    : totalPrice
+                }`}
           </Button>
         </CardFooter>
       </Card>

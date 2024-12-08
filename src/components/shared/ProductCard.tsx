@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
 import { Badge } from "../ui/badge";
-import { ShoppingCart, Store, Star } from 'lucide-react';
+import { ShoppingCart, Store, Star } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
@@ -11,6 +11,10 @@ import { addItem } from "@/redux/api/features/cartSlice";
 const ProductCard = ({ product }: { product: IProduct }) => {
   const dispatch = useAppDispatch();
   const cartProducts = useAppSelector((state) => state.cart.items);
+
+  const discountedPrice = product.discount
+    ? product.price - (product.price * product.discount) / 100
+    : product.price;
 
   const addToCart = () => {
     for (const item of cartProducts) {
@@ -27,7 +31,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       id: product.id,
       name: product.name,
       shopId: product.shopId,
-      price: product.price,
+      price: discountedPrice,
       image: product?.productImage?.[0]?.url ?? "",
       stockQuantity: product.inventoryCount,
     };
@@ -41,17 +45,19 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   };
 
   const renderStars = (rating: number) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star
-        key={index}
-        className={`w-4 h-4 ${index < Math.round(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
-      />
-    ));
+    return Array(5)
+      .fill(0)
+      .map((_, index) => (
+        <Star
+          key={index}
+          className={`w-4 h-4 ${
+            index < Math.round(rating)
+              ? "text-yellow-400 fill-yellow-400"
+              : "text-gray-300"
+          }`}
+        />
+      ));
   };
-
-  const discountedPrice = product.discount 
-    ? product.price - (product.price * product.discount / 100)
-    : product.price;
 
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg">
@@ -81,7 +87,9 @@ const ProductCard = ({ product }: { product: IProduct }) => {
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center">
             {renderStars(product.avgRating)}
-            <span className="ml-1 text-sm text-gray-600">({product.review.length})</span>
+            <span className="ml-1 text-sm text-gray-600">
+              ({product.review.length})
+            </span>
           </div>
           <p className="bg-yellow-100 px-2 rounded-md text-sm flex items-center gap-1">
             <Store className="w-4 h-4" />
@@ -117,4 +125,3 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 };
 
 export default ProductCard;
-

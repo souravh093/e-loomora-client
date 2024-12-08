@@ -10,6 +10,7 @@ import Users from "@/pages/Dashboard/Admin/Users/Users";
 import VendorShop from "@/pages/Dashboard/Admin/VendorShop/VendorShop";
 import CustomerOrder from "@/pages/Dashboard/Customer/CustomerOrder/CustomerOrder";
 import DashboardHome from "@/pages/Dashboard/DashboardHome";
+import Coupon from "@/pages/Dashboard/Vendor/Coupon/Coupon";
 import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersReview";
 import Inventory from "@/pages/Dashboard/Vendor/Inventory/Inventory";
 import OrderDetailsPage from "@/pages/Dashboard/Vendor/Orders/OrderDeatils/OrderDetails";
@@ -46,36 +47,36 @@ const router = createBrowserRouter([
       },
       {
         path: "/payment",
-        element: <Payment />
+        element: <Payment />,
       },
       {
         path: "/product-details/:id",
-        element: <ProductDetails />
+        element: <ProductDetails />,
       },
       {
         path: "/all-products",
-        element: <AllProducts />
+        element: <AllProducts />,
       },
       {
         path: "/shops",
-        element: <Shop />
+        element: <Shop />,
       },
       {
         path: "/shop-products/:id",
-        element: <ShopProduct />
+        element: <ShopProduct />,
       },
       {
         path: "/comparison",
-        element: <ProductComparison />
+        element: <ProductComparison />,
       },
       {
         path: "/discount-products",
-        element: <FlashSaleProducts />
+        element: <FlashSaleProducts />,
       },
       {
         path: "/recent-viewed",
-        element: <RecentViewed />
-      }
+        element: <RecentViewed />,
+      },
     ],
   },
   {
@@ -151,11 +152,19 @@ const router = createBrowserRouter([
         path: "vendor/orders/details/:id",
         element: <OrderDetailsPage />,
       },
+      {
+        path: "vendor/coupons",
+        element: <Coupon />,
+      },
 
       // Customer Routes
       {
         path: "user/orders",
-        element: <CustomerOrder />
+        element: <CustomerOrder />,
+      },
+      {
+        path: "user/orders/details/:id",
+        element: <OrderDetailsPage />,
       }
     ],
   },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { shippingFromValidation } from "@/validations/shipping/shipping.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,11 +18,14 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAppSelector } from "@/redux/hooks";
 import CartCard from "@/components/shared/CartCard";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useCheckCouponQuery } from "@/redux/api/features/coupoonApi";
 
 const Checkout = () => {
-
+  const [couponCode, setCouponCode] = useState("");
   const navigate = useNavigate();
   const cartProducts = useAppSelector((state) => state.cart.items);
+  const { data: couponData } = useCheckCouponQuery(couponCode);
 
   const totalPrice = cartProducts.reduce((acc, item) => {
     return acc + item.price * item.quantity;
@@ -40,8 +44,15 @@ const Checkout = () => {
   });
 
   const onSubmit = (data: z.infer<typeof shippingFromValidation>) => {
-    console.log(data);
-    navigate("/payment", {state: {shippingData: data}});
+    navigate("/payment", {
+      state: { shippingData: data, discount: couponData?.data?.discount },
+    });
+  };
+
+  const handleCouponCode = (e: any) => {
+    e.preventDefault();
+    const couponValue = e.target.coupon.value;
+    setCouponCode(couponValue);
   };
 
   return (
@@ -158,14 +169,21 @@ const Checkout = () => {
               ))}
             </div>
 
-            {/* Coupon code */}
-            <div className="flex items-center justify-between mt-5">
-              <Input
-                type="text"
-                placeholder="Enter coupon code"
-                className="w-2/3"
-              />
-              <Button className="w-1/3">Apply</Button>
+            <div className=" mt-5">
+              <form onSubmit={handleCouponCode} className="flex items-center">
+                <Input
+                  type="text"
+                  placeholder="Coupon code"
+                  name="coupon"
+                  className="w-1/2 rounded-none"
+                />
+                <Button
+                  type="submit"
+                  className="bg-yellow-500 text-black hover:bg-yellow-600 rounded-none"
+                >
+                  Apply
+                </Button>
+              </form>
             </div>
 
             {cartProducts.length > 0 ? (
@@ -173,7 +191,12 @@ const Checkout = () => {
                 <div className="w-full">
                   <div className="flex items-center justify-between">
                     <p className="font-medium md:text-2xl">Total: </p>
-                    <p className="font-medium md:text-2xl">৳{totalPrice}</p>
+                    <p className="font-medium md:text-2xl">
+                      ৳
+                      {couponData?.data?.discount
+                        ? (totalPrice * (couponData?.data?.discount / 100)).toFixed(2)
+                        : totalPrice}
+                    </p>
                   </div>
                 </div>
               </div>

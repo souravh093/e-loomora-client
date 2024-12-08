@@ -7,6 +7,7 @@ import {
   PackageSearch,
   Star,
   Store,
+  TicketPercent,
   User,
 } from "lucide-react";
 
@@ -64,6 +65,11 @@ const vendorNavItems: TMenuItem[] = [
     to: "/dashboard/vendor/orders",
     icon: <Logs className="w-4 h-4" />,
   },
+  {
+    name: "Coupons",
+    to: "/dashboard/vendor/coupons",
+    icon: <TicketPercent className="w-4 h-4" />,
+  }
 ];
 
 const userNavItems: TMenuItem[] = [

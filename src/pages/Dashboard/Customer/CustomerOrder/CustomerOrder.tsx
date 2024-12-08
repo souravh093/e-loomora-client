@@ -2,6 +2,7 @@
 import Avatar from "@/components/shared/Avatar";
 import Pagination from "@/components/shared/Pagination";
 import { SkeletonLoading } from "@/components/shared/Skeleton";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -15,7 +16,7 @@ import { useGetOrdersQuery } from "@/redux/api/features/orderApi";
 import { useAppSelector } from "@/redux/hooks";
 import { IOrder } from "@/types/product.type";
 import { useState } from "react";
-
+import { Link } from "react-router";
 
 const TABLE_HEAD = [
   "S/N",
@@ -24,6 +25,7 @@ const TABLE_HEAD = [
   "Customer Name",
   "Total Amount",
   "Status",
+  "Order Details",
 ];
 
 const CustomerOrder = () => {
@@ -45,7 +47,6 @@ const CustomerOrder = () => {
   ];
 
   const { data: orderData, isLoading, isFetching } = useGetOrdersQuery(query);
-
 
   return (
     <div className="w-full">
@@ -101,6 +102,11 @@ const CustomerOrder = () => {
                     >
                       {status}
                     </span>
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/dashboard/user/orders/details/${id}`}>
+                      <Button variant={"outline"}>View Details</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               )

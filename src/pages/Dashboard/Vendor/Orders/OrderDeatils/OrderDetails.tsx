@@ -31,12 +31,7 @@ import { IOrderItem } from "@/types/product.type";
 
 export default function OrderDetailsPage() {
   const { id } = useParams();
-
-  console.log(id);
-
   const { data: orderData } = useGetOrderByIdQuery(id);
-
-  console.log(orderData);
 
   return (
     <div className="container mx-auto py-10">
