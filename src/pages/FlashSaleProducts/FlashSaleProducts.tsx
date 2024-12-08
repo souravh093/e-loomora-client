@@ -2,7 +2,6 @@ import Container from "@/components/shared/Container";
 import ProductCard from "@/components/shared/ProductCard";
 import { useGetProductsQuery } from "@/redux/api/features/productApi";
 import { IProduct } from "@/types/product.type";
-import React from "react";
 
 const FlashSaleProducts = () => {
   const query = [

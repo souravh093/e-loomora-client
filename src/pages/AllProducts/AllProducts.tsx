@@ -107,7 +107,7 @@ const AllProducts = () => {
     setSortOrder(order);
   };
 
-  const [priceFilter, setPriceFilters] = useState({
+  const [priceFilter] = useState({
     price: {
       min: 0,
       max: 10000,
