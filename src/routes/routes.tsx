@@ -1,3 +1,4 @@
+import ChangePassword from "@/components/shared/ChangePassword";
 import { DashboardLayout } from "@/layout/DashboardLayout";
 import RootLayout from "@/layout/RootLayout";
 import AllProducts from "@/pages/AllProducts/AllProducts";
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
         path: "admin/transactions",
         element: <TransactionsHistory />,
       },
+      {
+        path: "admin/change-password",
+        element: <ChangePassword />
+      },
 
       // Vendor Routes
       {
@@ -156,6 +161,10 @@ const router = createBrowserRouter([
         path: "vendor/coupons",
         element: <Coupon />,
       },
+      {
+        path: "vendor/change-password",
+        element: <ChangePassword />
+      },
 
       // Customer Routes
       {
@@ -165,7 +174,11 @@ const router = createBrowserRouter([
       {
         path: "user/orders/details/:id",
         element: <OrderDetailsPage />,
-      }
+      },
+      {
+        path: "user/change-password",
+        element: <ChangePassword />
+      },
     ],
   },
 ]);

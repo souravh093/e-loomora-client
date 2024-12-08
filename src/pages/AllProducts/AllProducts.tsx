@@ -53,6 +53,10 @@ const AllProducts = () => {
         price: sortOrder,
       }),
     },
+    {
+      name: "limit",
+      value: "100",
+    }
   ];
 
   if (filters.category) {

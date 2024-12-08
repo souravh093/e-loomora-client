@@ -9,7 +9,11 @@ import { useNavigate } from "react-router";
 import { useAppSelector } from "@/redux/hooks";
 import CartCard from "./CartCard";
 import { ShoppingCart } from "lucide-react";
-import { selectCurrentUser, useCurrentToken } from "@/redux/api/features/authSlice";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/api/features/authSlice";
+import { toast } from "@/hooks/use-toast";
 
 const Cart = () => {
   const token = useAppSelector(useCurrentToken);
@@ -27,6 +31,19 @@ const Cart = () => {
   const isOutOfStock = cartProducts.some((product) => {
     return product.stockQuantity === 0;
   });
+
+  const handleCheckout = () => {
+
+    if(user && user.status === "SUSPENDED") {
+      toast({
+        variant: "destructive",
+        description: "Your account is suspended",
+      });
+      return;
+    }
+
+    navigate(token && user?.role === "USER" ? "/checkout" : "/login");
+  };
 
   return (
     <Sheet>
@@ -61,7 +78,7 @@ const Cart = () => {
             <div className="mt-4 flex gap-2">
               <Button
                 disabled={isDisabled || isOutOfStock}
-                onClick={() => navigate(token && user?.role === "USER" ? "/checkout" : "/login")}
+                onClick={handleCheckout}
                 className={`flex-1 bg-yellow-500 hover:bg-yellow-600 cursor-pointer ${
                   isDisabled || (isOutOfStock && "cursor-not-allowed")
                 }`}

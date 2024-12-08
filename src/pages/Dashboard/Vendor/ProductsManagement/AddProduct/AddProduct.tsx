@@ -57,6 +57,15 @@ export default function AddProduct() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+
+    if(shopData?.data?.status === "RESTRICTED") {
+      toast({
+        variant: "destructive",
+        title: "Your shop is restricted",
+      });
+      return;
+    }
+
     let downloadUrls: string[] = [];
     if (values.images && values.images.length > 0) {
       downloadUrls = await uploadImagesToFirebase(

@@ -58,7 +58,7 @@ const Banner = () => {
 
   return (
     <div className="bg-yellow-50 pb-5">
-      <Container className="grid grid-cols-7">
+      <Container className="grid grid-cols-1 lg:grid-cols-7">
         <div className="col-span-2 shadow-md text-lg bg-white">
           <div className="px-4 py-4 flex items-center gap-4 bg-yellow-500">
             <Logs />

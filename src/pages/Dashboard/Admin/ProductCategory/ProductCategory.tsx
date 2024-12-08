@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Avatar from "@/components/shared/Avatar";
 import CreateCategory from "@/components/shared/modal/CreateCategory";
-import { DeleteUser } from "@/components/shared/modal/DeleteUser";
+import { DeleteCategory } from "@/components/shared/modal/DeleteCategory";
 import EditCategory from "@/components/shared/modal/EditCategory";
 import { SkeletonLoading } from "@/components/shared/Skeleton";
 
@@ -79,7 +78,7 @@ const ProductCategory = () => {
 
                   <TableCell className="flex items-center gap-3">
                     <EditCategory id={id} />
-                    <DeleteUser id={id} />
+                    <DeleteCategory id={id} />
                   </TableCell>
                 </TableRow>
               )

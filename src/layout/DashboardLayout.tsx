@@ -68,6 +68,10 @@ export function DashboardLayout() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate("/")}>
+                Home
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

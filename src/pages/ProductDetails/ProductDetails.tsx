@@ -98,7 +98,7 @@ export default function ProductDetails() {
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <Carousel className="w-full max-w-xs mx-auto">
+          <Carousel className="w-full max-w-xl mx-auto">
             <CarouselContent>
               {productDetails?.data?.productImage?.map(
                 (src: IProductImage, index: number) => (
@@ -106,7 +106,7 @@ export default function ProductDetails() {
                     <img
                       src={src.url}
                       alt={`Product image ${index + 1}`}
-                      className="rounded-lg h-64 w-96 object-cover"
+                      className="rounded-lg h-96 w-full object-cover"
                     />
                   </CarouselItem>
                 )

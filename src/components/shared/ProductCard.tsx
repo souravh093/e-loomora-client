@@ -7,8 +7,11 @@ import { ShoppingCart, Store, Star } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
+import { selectCurrentUser } from "@/redux/api/features/authSlice";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const userStatus = currentUser ? currentUser.status : null;
   const dispatch = useAppDispatch();
   const cartProducts = useAppSelector((state) => state.cart.items);
 
@@ -17,6 +20,15 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     : product.price;
 
   const addToCart = () => {
+
+    if(currentUser && userStatus === "SUSPENDED") {
+      toast({
+        variant: "destructive",
+        description: "Your account is suspended",
+      });
+      return;
+    }
+
     for (const item of cartProducts) {
       if (item.shopId !== product.shopId) {
         toast({

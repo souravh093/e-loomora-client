@@ -3,6 +3,7 @@ import {
   ChartBarStacked,
   Home,
   Landmark,
+  Lock,
   Logs,
   PackageSearch,
   Star,
@@ -37,6 +38,11 @@ const adminNavItems: TMenuItem[] = [
     to: "/dashboard/admin/transactions",
     icon: <Landmark className="w-4 h-4" />,
   },
+  {
+    name: "Change Password",
+    to: "/dashboard/admin/change-password",
+    icon: <Lock className="w-4 h-4" />,
+  }
 ];
 
 const vendorNavItems: TMenuItem[] = [
@@ -69,6 +75,11 @@ const vendorNavItems: TMenuItem[] = [
     name: "Coupons",
     to: "/dashboard/vendor/coupons",
     icon: <TicketPercent className="w-4 h-4" />,
+  },
+  {
+    name: "Change Password",
+    to: "/dashboard/vendor/change-password",
+    icon: <Lock className="w-4 h-4" />,
   }
 ];
 
@@ -83,6 +94,11 @@ const userNavItems: TMenuItem[] = [
     to: "/dashboard/user/orders",
     icon: <Logs className="w-4 h-4" />,
   },
+  {
+    name: "Change Password",
+    to: "/dashboard/user/change-password",
+    icon: <Lock className="w-4 h-4" />,
+  }
 ];
 
 export { adminNavItems, vendorNavItems, userNavItems };

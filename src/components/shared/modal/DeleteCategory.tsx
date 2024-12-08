@@ -11,15 +11,15 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog";
   import { toast } from "@/hooks/use-toast";
-  import { useDeleteUserMutation } from "@/redux/api/features/userApi";
+import { useDeleteCategoryMutation } from "@/redux/api/features/categoryApi";
   import { Trash2 } from "lucide-react";
   
-  export function DeleteUser({id}: {id: string}) {
-    const [deleteUser] = useDeleteUserMutation();
+  export function DeleteCategory({id}: {id: string}) {
+    const [deleteCat] = useDeleteCategoryMutation();
   
     const handleDelete = async () => {
       try {
-        const response = await deleteUser(id).unwrap();
+        const response = await deleteCat(id).unwrap();
   
         if (response.success) {
           toast({
