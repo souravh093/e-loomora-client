@@ -20,8 +20,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     : product.price;
 
   const addToCart = () => {
-
-    if(currentUser && userStatus === "SUSPENDED") {
+    if (currentUser && userStatus === "SUSPENDED") {
       toast({
         variant: "destructive",
         description: "Your account is suspended",
@@ -43,7 +42,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       id: product.id,
       name: product.name,
       shopId: product.shopId,
-      price: discountedPrice,
+      price: Number(discountedPrice.toFixed(2)),
       image: product?.productImage?.[0]?.url ?? "",
       stockQuantity: product.inventoryCount,
     };
@@ -103,10 +102,13 @@ const ProductCard = ({ product }: { product: IProduct }) => {
               ({product.review.length})
             </span>
           </div>
-          <p className="bg-yellow-100 px-2 rounded-md text-sm flex items-center gap-1">
+          <Link
+            to={`/shop-products/${product.shopId}`}
+            className="bg-yellow-100 px-2 rounded-md text-sm flex items-center gap-1"
+          >
             <Store className="w-4 h-4" />
             {product.shop.name}
-          </p>
+          </Link>
         </div>
         <div className="flex items-center justify-between mt-2">
           <div>

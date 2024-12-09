@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import Container from "./Container";
 import Cart from "./Cart";
 import { Button } from "../ui/button";
-import { logout, useCurrentToken } from "@/redux/api/features/authSlice";
+import { logout, selectCurrentUser, useCurrentToken } from "@/redux/api/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   DropdownMenu,
@@ -15,11 +15,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { CircleUser, SearchIcon, Menu, X } from "lucide-react";
+import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector(useCurrentToken);
+  const currentUser = useAppSelector(selectCurrentUser)
+  const userId = currentUser?.id ? currentUser.id : null;
+  const {data: userData} = useGetUserByIdQuery(userId);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -37,6 +41,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  console.log(userData)
 
   return (
     <nav className="py-3 border-y sticky top-0 z-10 bg-white shadow-md">
@@ -63,11 +69,46 @@ const Navbar = () => {
           </form>
         </div>
         <div className="hidden md:flex items-center gap-4">
-          <NavLink to={"/"}>Home</NavLink>
-          <NavLink to={"/all-products"}>All Products</NavLink>
-          <NavLink to={"/comparison"}>Comparison</NavLink>
-          <NavLink to={"/shops"}>Shop</NavLink>
-          <NavLink to={"/recent-viewed"}>Recent Product</NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/all-products"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+            }
+          >
+            All Products
+          </NavLink>
+          <NavLink
+            to="/comparison"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+            }
+          >
+            Comparison
+          </NavLink>
+          <NavLink
+            to="/shops"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+            }
+          >
+            Shop
+          </NavLink>
+          <NavLink
+            to="/recent-viewed"
+            className={({ isActive }) =>
+              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+            }
+          >
+            Recent Product
+          </NavLink>
         </div>
         <div className="hidden md:flex items-center gap-4">
           {token ? (
@@ -78,7 +119,13 @@ const Navbar = () => {
                   size="icon"
                   className="rounded-full"
                 >
-                  <CircleUser className="h-5 w-5" />
+                  {
+                    userData?.data?.image ? (
+                      <img src={userData.data.image} alt="user" className="w-8 h-8 rounded-full" />
+                    ) : (
+                      <CircleUser className="h-5 w-5" />
+                    )
+                  }
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -110,7 +157,11 @@ const Navbar = () => {
         </div>
         <div className="md:hidden flex items-center">
           <Button variant="secondary" size="icon" onClick={toggleMenu}>
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </Button>
         </div>
       </Container>
@@ -133,11 +184,21 @@ const Navbar = () => {
                 <SearchIcon />
               </Button>
             </form>
-            <NavLink to={"/"} onClick={toggleMenu}>Home</NavLink>
-            <NavLink to={"/all-products"} onClick={toggleMenu}>All Products</NavLink>
-            <NavLink to={"/comparison"} onClick={toggleMenu}>Comparison</NavLink>
-            <NavLink to={"/shops"} onClick={toggleMenu}>Shop</NavLink>
-            <NavLink to={"/recent-viewed"} onClick={toggleMenu}>Recent Product</NavLink>
+            <NavLink to={"/"} onClick={toggleMenu}>
+              Home
+            </NavLink>
+            <NavLink to={"/all-products"} onClick={toggleMenu}>
+              All Products
+            </NavLink>
+            <NavLink to={"/comparison"} onClick={toggleMenu}>
+              Comparison
+            </NavLink>
+            <NavLink to={"/shops"} onClick={toggleMenu}>
+              Shop
+            </NavLink>
+            <NavLink to={"/recent-viewed"} onClick={toggleMenu}>
+              Recent Product
+            </NavLink>
             {token ? (
               <>
                 <Button

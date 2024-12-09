@@ -9,13 +9,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { logout } from "@/redux/api/features/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { logout, selectCurrentUser } from "@/redux/api/features/authSlice";
+import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CircleUser, Menu, Package2 } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 
 
 export function DashboardLayout() {
+  const currentUser = useAppSelector(selectCurrentUser)
+  const userId = currentUser?.id ? currentUser.id : null;
+  const {data: userData} = useGetUserByIdQuery(userId);
   const navigate = useNavigate();
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
@@ -60,7 +64,13 @@ export function DashboardLayout() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
+                {
+                  userData?.data.image ? (
+                    <img src={userData.data.image} alt="avatar" className="w-8 h-8 rounded-full" />
+                  ) : (
+                    <CircleUser className="h-8 w-8" />
+                  )
+                }
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
