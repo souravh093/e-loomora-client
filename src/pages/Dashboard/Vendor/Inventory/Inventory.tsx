@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Duplicate from "@/components/DuplicateOrder";
 import Avatar from "@/components/shared/Avatar";
 import { DeleteProduct } from "@/components/shared/modal/DeleteProduct";
 import Pagination from "@/components/shared/Pagination";
@@ -113,6 +114,9 @@ const Inventory = () => {
                   productImage,
                   name,
                   inventoryCount,
+                  description,
+                  discount,
+                  shopId,
                 }: IProduct,
                 index: number
               ) => (
@@ -160,6 +164,18 @@ const Inventory = () => {
                         </Button>
                       </Link>
                       <DeleteProduct id={id} />
+                      <Duplicate product={
+                        {
+                          name,
+                          description,
+                          price,
+                          inventoryCount,
+                          discount,
+                          shopId,
+                          productImage,
+                          category: categoryName,
+                        }
+                      } />
                     </div>
                   </TableCell>
                 </TableRow>

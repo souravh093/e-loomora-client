@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
 import { selectCurrentUser } from "@/redux/api/features/authSlice";
+import CartAction from "./CartAction";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const currentUser = useAppSelector(selectCurrentUser);
@@ -32,7 +33,8 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       if (item.shopId !== product.shopId) {
         toast({
           variant: "destructive",
-          description: "Replace the cart with the new product",
+          description: "You have products from another vendor in your cart. What would you like to do?",
+          action: <CartAction />,
         });
         return;
       }
