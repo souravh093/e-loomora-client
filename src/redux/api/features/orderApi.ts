@@ -21,9 +21,29 @@ const orderApi = baseApi.injectEndpoints({
       },
       providesTags: ["Orders"],
     }),
+    getAllInfo: builder.query({
+      query: () => ({
+        url: "/orders/all-info",
+        method: "GET",
+      }),
+    }),
     getOrderById: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Orders"],
+    }),
+    getOrderCountByWeek: builder.query({
+      query: (shopId) => ({
+        url: `/orders/week/${shopId}`,
+        method: "GET",
+      }),
+      providesTags: ["Orders"],
+    }),
+    getOrderCountByMonth: builder.query({
+      query: (shopId) => ({
+        url: `/orders/month/${shopId}`,
         method: "GET",
       }),
       providesTags: ["Orders"],
@@ -61,4 +81,7 @@ export const {
   useGetOrderByIdQuery,
   useCreateOrderMutation,
   useGetOrderByUserIdQuery,
+  useGetOrderCountByWeekQuery,
+  useGetOrderCountByMonthQuery,
+  useGetAllInfoQuery,
 } = orderApi;
