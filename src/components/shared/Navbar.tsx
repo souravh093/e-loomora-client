@@ -42,8 +42,6 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  console.log(userData)
-
   return (
     <nav className="py-3 border-y sticky top-0 z-10 bg-white shadow-md">
       <Container className="flex items-center justify-between">

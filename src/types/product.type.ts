@@ -16,6 +16,13 @@ export interface IReview {
   rating: number;
   productId: string;
   userId: string;
+  replayReview: IReplayReview[];
+}
+
+export interface IReplayReview {
+  id: string;
+  content: string;
+  reviewId: string;
 }
 
 export interface IProduct {

@@ -2,7 +2,7 @@
 
 ### Live URL
 ```js
-https://paw-sage-client-seven.vercel.app/
+https://bright-bublanina-7d46a7.netlify.app/
 ```
 
 # Introduction

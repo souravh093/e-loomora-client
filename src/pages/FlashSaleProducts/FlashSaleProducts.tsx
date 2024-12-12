@@ -13,7 +13,7 @@ const FlashSaleProducts = () => {
     },
   ];
   const { data: discountProducts } = useGetProductsQuery(query);
-  console.log(discountProducts);
+
   return (
     <Container>
       <h1>Flash Sale Products</h1>

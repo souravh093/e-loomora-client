@@ -8,4 +8,12 @@ export const shopValidationSchema = z
   })
   .merge(imageSchema);
 
+export const shopUpdateValidationSchema = z
+  .object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+  })
+  .merge(imageSchema);
+
 export type ShopFromValues = z.infer<typeof shopValidationSchema>;
+export type ShopUpdateFormValues = z.infer<typeof shopUpdateValidationSchema>;

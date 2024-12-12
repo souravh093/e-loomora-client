@@ -23,12 +23,17 @@ const CategoryProduct = ({
     [];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
-      {isLoading && <p>Loading...</p>}
-      {productsData.map((product: IProduct) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
+    <>
+      {productsData.length > 0 && (
+        <h2 className="text-2xl font-bold mt-8 mb-4">Related Products</h2>
+      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+        {isLoading && <p>Loading...</p>}
+        {productsData.map((product: IProduct) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </>
   );
 };
 

@@ -9,8 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useGetProductByIdQuery } from "@/redux/api/features/productApi";
-import { useParams } from "react-router";
-import { IProductImage } from "@/types/product.type";
+import { Link, useParams } from "react-router";
+import { IProductImage, IReview } from "@/types/product.type";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "@/hooks/use-toast";
 import { addItem } from "@/redux/api/features/cartSlice";
@@ -90,9 +90,11 @@ export default function ProductDetails() {
       (productDetails?.data.price * productDetails?.data.discount) / 100
     : productDetails?.data.price;
 
-    if(productDetails?.data && productDetails?.data.id) {
-      recentViewedProduct(productDetails?.data);
-    }
+  if (productDetails?.data && productDetails?.data.id) {
+    recentViewedProduct(productDetails?.data);
+  }
+
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -124,9 +126,9 @@ export default function ProductDetails() {
             </h1>
             <div className="flex items-center gap-2 mb-4">
               <Badge>{productDetails?.data?.category?.name}</Badge>
-              <span className="text-muted-foreground">
+              <Link to={`/shop-products/${productDetails?.data?.shop?.id}`} className="text-muted-foreground">
                 by {productDetails?.data?.shop?.name}
-              </span>
+              </Link>
             </div>
             <div className="flex items-center">
               {renderStars(productDetails?.data?.avgRating)}
@@ -158,13 +160,41 @@ export default function ProductDetails() {
         </Card>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-bold mt-8 mb-4">Related Products</h2>
+      <CategoryProduct id={id} categoryId={productDetails?.data?.categoryId} />
 
-        <CategoryProduct
-          id={id}
-          categoryId={productDetails?.data?.categoryId}
-        />
+      <div>
+        <h2 className="text-2xl font-bold mt-8 mb-4">Customer Review</h2>
+
+        <div className="flex flex-col gap-2">
+          {productDetails?.data?.review.map((review: IReview) => (
+            <div key={review.id} className="flex items-center gap-3 w-full">
+              <img
+                src={review.user.image}
+                alt="user image"
+                className="h-32 w-32 rounded-full object-cover"
+              />
+              <div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-bold">{review.user.name}</span>
+                    <div className="flex items-center">
+                      {renderStars(review.rating)}
+                    </div>
+                  </div>
+                  <p>{review.content}</p>
+                </div>
+                {review.replayReview.length > 0 && (
+                  <div className="flex items-center gap-2 ml-10">
+                    <span className="font-bold">Replay Review: </span>
+                    {review.replayReview.map((review) => (
+                      <div key={review.id}>{review.content}</div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {orderData?.data?.status === "COMPLETED" && (

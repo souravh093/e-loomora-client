@@ -83,7 +83,6 @@ const AllProducts = () => {
   const { data: products, isLoading } = useGetProductsQuery(query);
   const { data: categoriesData } = useGetCategoriesQuery(undefined);
 
-  console.log(filters);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

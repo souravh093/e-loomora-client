@@ -36,8 +36,6 @@ const CustomerReview = () => {
     isFetching,
   } = useGetReviewsQuery(shopData?.data?.id);
 
-  console.log(reviewData);
-
   return (
     <div className="w-full">
       <Table>
@@ -56,7 +54,7 @@ const CustomerReview = () => {
           ) : (
             reviewData?.data?.map(
               (
-                { id, content, rating, user, product }: IReview,
+                { id, content, rating, user, product, replayReview }: IReview,
                 index: number
               ) => (
                 <TableRow key={id}>
@@ -79,7 +77,11 @@ const CustomerReview = () => {
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.category.name}</TableCell>
                   <TableCell>
-                    <ReviewModal content={content} />
+                    <ReviewModal
+                      content={content}
+                      id={id}
+                      replayReview={replayReview}
+                    />
                   </TableCell>
                 </TableRow>
               )

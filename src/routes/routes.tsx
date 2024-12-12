@@ -18,6 +18,7 @@ import OrderDetailsPage from "@/pages/Dashboard/Vendor/Orders/OrderDeatils/Order
 import Orders from "@/pages/Dashboard/Vendor/Orders/Orders";
 import AddProduct from "@/pages/Dashboard/Vendor/ProductsManagement/AddProduct/AddProduct";
 import EditProduct from "@/pages/Dashboard/Vendor/ProductsManagement/EditProduct/EditProduct";
+import ShopManagement from "@/pages/Dashboard/Vendor/ShopManagement/ShopManagement";
 import Error from "@/pages/Error/Error";
 import FlashSaleProducts from "@/pages/FlashSaleProducts/FlashSaleProducts";
 import ForgetPassword from "@/pages/ForgetPassword/ForgetPassword";
@@ -160,6 +161,10 @@ const router = createBrowserRouter([
       {
         path: "vendor/coupons",
         element: <Coupon />,
+      },
+      {
+        path: "vendor/shop-management",
+        element: <ShopManagement />,
       },
       {
         path: "vendor/change-password",

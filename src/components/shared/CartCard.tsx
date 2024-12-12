@@ -13,7 +13,6 @@ const CartCard = ({ product }: { product: CartItem }) => {
   const dispatch = useAppDispatch();
   const { id, image, name, price, quantity } = product;
   const handleQuantityIncrease = () => {
-    console.log("first", quantity);
     dispatch(updateQuantity({ id, quantity: quantity + 1 }));
   };
 

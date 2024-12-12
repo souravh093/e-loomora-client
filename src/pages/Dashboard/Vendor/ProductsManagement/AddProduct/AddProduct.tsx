@@ -103,6 +103,7 @@ export default function AddProduct() {
         });
 
         form.reset();
+        setImagePreview([]);
       }
     } catch (error: any) {
       console.log(error)

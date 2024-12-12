@@ -24,7 +24,6 @@ const ChangePassword = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const email = currentUser ? currentUser.email : null;
   const [changePassword, {isLoading}] = useChangePasswordMutation();
-  console.log(isLoading)
 
   const form = useForm<z.infer<typeof changePasswordSchema>>({
     resolver: zodResolver(changePasswordSchema),

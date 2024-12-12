@@ -41,10 +41,8 @@ export function ShopCard({ id, name, logoUrl, description, follower }: IShop) {
 
   const { data: checkFollowData } = useCheckFollowQuery(query);
 
-
   const handleFollowToggle = async () => {
-
-    if(!userId) {
+    if (!userId) {
       toast({
         variant: "destructive",
         title: "You need to login to follow a shop",

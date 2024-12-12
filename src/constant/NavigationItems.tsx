@@ -77,6 +77,11 @@ const vendorNavItems: TMenuItem[] = [
     icon: <TicketPercent className="w-4 h-4" />,
   },
   {
+    name: "Shop Management",
+    to: "/dashboard/vendor/shop-management",
+    icon: <Landmark className="w-4 h-4" />,
+  },
+  {
     name: "Change Password",
     to: "/dashboard/vendor/change-password",
     icon: <Lock className="w-4 h-4" />,

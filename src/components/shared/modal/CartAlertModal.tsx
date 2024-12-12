@@ -18,7 +18,6 @@ import { addItem, resetCart } from "@/redux/api/features/cartSlice";
   }
   
   export function CartAlertModal({ isOpen, onClose, product }: ICartAlertModal) {
-    console.log(product)
     const dispatch = useAppDispatch();
   
 

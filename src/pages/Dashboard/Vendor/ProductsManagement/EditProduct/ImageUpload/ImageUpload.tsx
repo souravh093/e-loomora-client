@@ -27,7 +27,6 @@ export const ImageUpload = ({ id }: { id: string | undefined }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof imageSchema>) => {
-    console.log(data);
     let downloadUrl: string | null | undefined = null;
     if (data.image) {
       downloadUrl = await uploadImageToFirebase(

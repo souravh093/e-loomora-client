@@ -27,7 +27,6 @@ interface WeekOrder {
   
 
 export function WeekOrderChart({chartData}: {chartData: WeekOrder[]}) {
-    console.log(chartData)
   return (
     <Card className="w-72 h-52">
       <CardHeader>

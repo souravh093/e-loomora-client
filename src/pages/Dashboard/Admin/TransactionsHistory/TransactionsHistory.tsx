@@ -25,7 +25,6 @@ const TransactionsHistory = () => {
     isFetching,
   } = useGetTransactionsQuery(undefined);
 
-  console.log(paymentData);
   return (
     <div className="w-full">
       <Table>
