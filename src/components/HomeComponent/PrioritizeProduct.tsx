@@ -27,7 +27,7 @@ const PrioritizeProduct = () => {
   ]);
 
   useEffect(() => {
-    if (products?.data) {
+    if (products?.data?.result && Array.isArray(products?.data?.result)) {
       setProductsList((prevProducts) => [
         ...prevProducts,
         ...products.data.result,
