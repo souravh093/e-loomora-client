@@ -14,10 +14,11 @@ import {
 } from "@/redux/api/features/followsShopApi";
 import { toast } from "@/hooks/use-toast";
 import { FollowButton } from "@/components/ShopComponent/FollowButton";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
 const ShopProduct = () => {
   const { id } = useParams();
-  const { data: shopData } = useGetShopByIdQuery(id);
+  const { data: shopData, isLoading } = useGetShopByIdQuery(id);
 
   const user = useAppSelector(selectCurrentUser);
   const userId = user?.id ? user.id : "";
@@ -137,6 +138,13 @@ const ShopProduct = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      {isLoading && (
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

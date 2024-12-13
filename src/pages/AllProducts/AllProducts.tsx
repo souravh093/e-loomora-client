@@ -25,6 +25,7 @@ import { useGetProductsQuery } from "@/redux/api/features/productApi";
 import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
 const AllProducts = () => {
   const location = useLocation();
@@ -56,7 +57,7 @@ const AllProducts = () => {
     {
       name: "limit",
       value: "100",
-    }
+    },
   ];
 
   if (filters.category) {
@@ -82,7 +83,6 @@ const AllProducts = () => {
 
   const { data: products, isLoading } = useGetProductsQuery(query);
   const { data: categoriesData } = useGetCategoriesQuery(undefined);
-
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -222,8 +222,10 @@ const AllProducts = () => {
                   No products found
                 </p>
               ) : isLoading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-50"></div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                    <ProductCardSkeleton key={i} />
+                  ))}
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">

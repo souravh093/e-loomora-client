@@ -1,16 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useGetProductsQuery } from "@/redux/api/features/productApi";
 import Container from "../shared/Container";
 import ProductCard from "../shared/ProductCard";
 import { IProduct } from "@/types/product.type";
+import ProductCardSkeleton from "../ProductCardSkeleton";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const ShowProduct = () => {
   const [page, setPage] = useState(1);
   const [productsList, setProductsList] = useState<IProduct[]>([]);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  const query = [
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetProductsQuery([
     {
       name: "orderBy",
       value: JSON.stringify({
@@ -25,9 +30,7 @@ const ShowProduct = () => {
       name: "limit",
       value: 5,
     },
-  ];
-
-  const { data: products, isLoading } = useGetProductsQuery(query);
+  ]);
 
   useEffect(() => {
     if (products?.data?.result) {
@@ -39,22 +42,14 @@ const ShowProduct = () => {
   }, [products]);
 
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
+    refetch();
+  }, [page, refetch]);
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !isLoading) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    });
-
-    if (sentinelRef.current) {
-      observer.current.observe(sentinelRef.current);
+  const fetchMoreData = () => {
+    if (!isFetching && products?.data?.result?.length >= 5) {
+      setPage((prevPage) => prevPage + 1);
     }
-
-    return () => {
-      if (observer.current) observer.current.disconnect();
-    };
-  }, [isLoading]);
+  };
 
   return (
     <div className="my-5">
@@ -62,20 +57,33 @@ const ShowProduct = () => {
         <div className="my-3">
           <h1 className="text-gray-700 font-bold text-2xl">Deals of The Day</h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
-          {productsList.map((product: IProduct) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-        <div ref={sentinelRef} style={{ height: 1 }} />
-        {isLoading && (
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500 border-opacity-50"></div>
+        <InfiniteScroll
+          dataLength={productsList.length}
+          next={fetchMoreData}
+          hasMore={products?.data?.result?.length >= 5}
+          loader={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            </div>
+          }
+          endMessage={
+            <p style={{ textAlign: "center", marginTop: "20px" }}>
+              <b>No more products to display</b>
+            </p>
+          }
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+            {isLoading &&
+              [0, 1, 2, 3, 4].map((i) => <ProductCardSkeleton key={i} />)}
+            {productsList.length > 0
+              ? productsList.map((product: IProduct) => (
+                  <ProductCard key={product.id} product={product} />
+                ))
+              : !isLoading && <div>No products found</div>}
           </div>
-        )}
-        {!isLoading && productsList.length >= (products?.data?.total || 0) && (
-          <p>No more products</p>
-        )}
+        </InfiniteScroll>
       </Container>
     </div>
   );

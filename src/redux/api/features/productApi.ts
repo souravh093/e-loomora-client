@@ -22,10 +22,23 @@ const userApi = baseApi.injectEndpoints({
       providesTags: ["Products"],
     }),
     getPrioritizeProducts: builder.query({
-      query: () => ({
-        url: "/products/prioritize",
-        method: "GET",
-      }),
+      query: (query) => {
+        const params = new URLSearchParams();
+
+        console.log(query);
+
+        if (query) {
+          query.forEach((item: QueryItem) => {
+            params.append(item.name, item.value);
+          });
+        }
+
+        return {
+          url: "/products/prioritize",
+          method: "GET",
+          params: params,
+        };
+      },
       providesTags: ["Products"],
     }),
     createProduct: builder.mutation({
