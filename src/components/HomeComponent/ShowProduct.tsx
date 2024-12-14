@@ -25,11 +25,7 @@ const ShowProduct = () => {
     {
       name: "page",
       value: page,
-    },
-    {
-      name: "limit",
-      value: 5,
-    },
+    }
   ]);
 
   useEffect(() => {

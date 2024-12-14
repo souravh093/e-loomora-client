@@ -25,8 +25,6 @@ const userApi = baseApi.injectEndpoints({
       query: (query) => {
         const params = new URLSearchParams();
 
-        console.log(query);
-
         if (query) {
           query.forEach((item: QueryItem) => {
             params.append(item.name, item.value);
