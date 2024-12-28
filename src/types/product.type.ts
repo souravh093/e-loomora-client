@@ -2,7 +2,7 @@ import { TUser } from "./user.type";
 
 export interface IProductImage {
   id: string;
-  url: string;
+  url: string | undefined | null;
 }
 
 export interface ICategory {
@@ -85,5 +85,5 @@ export interface IOrder {
   totalAmount: number;
   user: TUser;
   shop: IShop;
-  orderItems: IOrderItem[];
+  orderItem: IOrderItem[];
 }

@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetTransactionsQuery } from "@/redux/api/features/paymentApi";
+import { useGetOrdersByUserIdQuery } from "@/redux/api/features/orderApi";
 
 const TABLE_HEAD = [
   "S/N",
@@ -18,12 +18,13 @@ const TABLE_HEAD = [
   "Transaction ID",
 ];
 
-const TransactionsHistory = () => {
+const PaymentUserHistory = () => {
   const {
-    data: paymentData,
+    data: paymentHistory,
     isLoading,
     isFetching,
-  } = useGetTransactionsQuery(undefined);
+  } = useGetOrdersByUserIdQuery(undefined);
+  console.log(paymentHistory);
 
   return (
     <div className="w-full">
@@ -36,27 +37,31 @@ const TransactionsHistory = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paymentData?.data?.length < 1 ? (
+          {paymentHistory?.data?.length < 1 ? (
             <span>No Users found</span>
           ) : isLoading || isFetching ? (
             <SkeletonLoading />
           ) : (
-            paymentData?.data?.map(
+            paymentHistory?.data?.map(
               (
                 {
-                  transactionId,
-                  method,
-                  amount,
-                  status,
-                  createdAt,
-                  id,
+                  Payment: {
+                    transactionId,
+                    method,
+                    amount,
+                    status,
+                    createdAt,
+                    id,
+                  },
                 }: {
-                  transactionId: string;
-                  method: string;
-                  amount: number;
-                  status: string;
-                  createdAt: string;
-                  id: string;
+                  Payment: {
+                    transactionId: string;
+                    method: string;
+                    amount: number;
+                    status: string;
+                    createdAt: string;
+                    id: string;
+                  };
                 },
                 index: number
               ) => (
@@ -95,4 +100,4 @@ const TransactionsHistory = () => {
   );
 };
 
-export default TransactionsHistory;
+export default PaymentUserHistory;

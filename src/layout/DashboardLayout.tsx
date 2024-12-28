@@ -12,9 +12,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { logout, selectCurrentUser } from "@/redux/api/features/authSlice";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { CircleUser, Menu, Package2 } from "lucide-react";
+import { CircleUser, Menu } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
-
+import logo from "@/assets/logo.png";
 
 export function DashboardLayout() {
   const currentUser = useAppSelector(selectCurrentUser)
@@ -33,8 +33,8 @@ export function DashboardLayout() {
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold text-green-500">
-              <Package2 className="h-6 w-6" />
+            <Link to="/" className="flex items-center gap-2 font-semibold text-yellow-500">
+              <img src={logo} alt="logo" className="w-8 h-8" />
               <span className="font-black">LOOMORA</span>
             </Link>
           </div>

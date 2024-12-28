@@ -65,7 +65,7 @@ const DashboardNavigation = () => {
           ) : (
             <Link
               to={item.to}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary text-lg"
             >
               {item.icon}
               {item.name}

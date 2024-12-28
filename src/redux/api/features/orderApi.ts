@@ -27,6 +27,13 @@ const orderApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getOrdersByUserId: builder.query({
+      query: () => ({
+        url: "/orders/payment",
+        method: "GET",
+      }),
+      providesTags: ["Orders"],
+    }),
     getOrderById: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,
@@ -81,6 +88,7 @@ export const {
   useGetOrderByIdQuery,
   useCreateOrderMutation,
   useGetOrderByUserIdQuery,
+  useGetOrdersByUserIdQuery,
   useGetOrderCountByWeekQuery,
   useGetOrderCountByMonthQuery,
   useGetAllInfoQuery,

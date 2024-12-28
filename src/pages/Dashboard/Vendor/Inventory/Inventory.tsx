@@ -133,7 +133,7 @@ const Inventory = () => {
                     <div className="flex items-center gap-2">
                       {productImage ? (
                         <img
-                          src={productImage[0]?.url}
+                          src={productImage[0]?.url ? productImage[0]?.url : ""}
                           alt="user image"
                           className="h-10 w-10 rounded-full object-cover"
                         />

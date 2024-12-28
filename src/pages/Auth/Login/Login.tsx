@@ -56,6 +56,19 @@ export default function LoginForm() {
     }
   };
 
+  // Default credentials
+  const defaultCredentials = {
+    user: { email: "user@gmail.com", password: "user1234" },
+    vendor: { email: "vendor@gmail.com", password: "vendor1234" },
+    admin: { email: "souravh093@gmail.com", password: "admin@123" },
+  };
+
+  const handleAutoFill = (role: "user" | "vendor" | "admin") => {
+    const credentials = defaultCredentials[role];
+    userForm.setValue("email", credentials.email);
+    userForm.setValue("password", credentials.password);
+  };
+
   return (
     <div className="min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-center min-h-screen">
@@ -78,6 +91,29 @@ export default function LoginForm() {
             </p>
           </div>
           <div>
+            <div className="flex justify-center gap-4 mt-4">
+              <Button
+                type="button"
+                onClick={() => handleAutoFill("user")}
+                className="bg-yellow-400 text-white"
+              >
+                Autofill User
+              </Button>
+              <Button
+                type="button"
+                onClick={() => handleAutoFill("vendor")}
+                className="bg-yellow-500 text-white"
+              >
+                Autofill Vendor
+              </Button>
+              <Button
+                type="button"
+                onClick={() => handleAutoFill("admin")}
+                className="bg-yellow-600 text-white"
+              >
+                Autofill Admin
+              </Button>
+            </div>
             <form
               onSubmit={userForm.handleSubmit(onUserSubmit)}
               className="space-y-4 w-96 lg:w-[400px] mx-auto mt-10"
@@ -101,10 +137,7 @@ export default function LoginForm() {
                 <div className="flex justify-between items-center">
                   <Label htmlFor="user-password">Password</Label>
                   <span>
-                    <Link
-                      to="/forget-password"
-                      className="text-sm"
-                    >
+                    <Link to="/forget-password" className="text-sm">
                       Forgot password?
                     </Link>
                   </span>

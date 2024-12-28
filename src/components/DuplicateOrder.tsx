@@ -68,11 +68,11 @@ const Duplicate = ({ product }: IDuplicateProps) => {
   });
 
   const [imagePreview, setImagePreview] = useState<string[]>(
-    product.productImage?.map((image) => image.url) || []
+    product.productImage?.map((image) => image.url).filter((url): url is string => !!url) || []
   );
 
   const [productImages, setProductImages] = useState<string[]>(
-    product.productImage?.map((image) => image.url) || []
+    product.productImage?.map((image) => image.url).filter((url): url is string => !!url) || []
   );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

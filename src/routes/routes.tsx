@@ -6,10 +6,12 @@ import Login from "@/pages/Auth/Login/Login";
 import Signup from "@/pages/Auth/Signup/Signup";
 import Checkout from "@/pages/Checkout/Checkout";
 import ProductCategory from "@/pages/Dashboard/Admin/ProductCategory/ProductCategory";
+import Subscribe from "@/pages/Dashboard/Admin/Subscribe/Subscribe";
 import TransactionsHistory from "@/pages/Dashboard/Admin/TransactionsHistory/TransactionsHistory";
 import Users from "@/pages/Dashboard/Admin/Users/Users";
 import VendorShop from "@/pages/Dashboard/Admin/VendorShop/VendorShop";
 import CustomerOrder from "@/pages/Dashboard/Customer/CustomerOrder/CustomerOrder";
+import PaymentUserHistory from "@/pages/Dashboard/Customer/PaymentUserHistory/PaymentUserHistory";
 import DashboardHome from "@/pages/Dashboard/DashboardHome";
 import Coupon from "@/pages/Dashboard/Vendor/Coupon/Coupon";
 import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersReview";
@@ -130,7 +132,11 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/change-password",
-        element: <ChangePassword />
+        element: <ChangePassword />,
+      },
+      {
+        path: "admin/subscribe",
+        element: <Subscribe />,
       },
 
       // Vendor Routes
@@ -168,7 +174,7 @@ const router = createBrowserRouter([
       },
       {
         path: "vendor/change-password",
-        element: <ChangePassword />
+        element: <ChangePassword />,
       },
 
       // Customer Routes
@@ -181,8 +187,12 @@ const router = createBrowserRouter([
         element: <OrderDetailsPage />,
       },
       {
+        path: "user/payment-history",
+        element: <PaymentUserHistory />
+      },
+      {
         path: "user/change-password",
-        element: <ChangePassword />
+        element: <ChangePassword />,
       },
     ],
   },

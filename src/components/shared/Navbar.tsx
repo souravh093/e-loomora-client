@@ -18,11 +18,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { CircleUser, SearchIcon, Menu, X } from "lucide-react";
+import { CircleUser, SearchIcon, Menu, X, ChevronDown } from "lucide-react";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 import logo from "@/assets/logo.png";
+import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
+import { ICategory } from "@/types/product.type";
 
 const Navbar = () => {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -62,6 +65,13 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const {data: categories} = useGetCategoriesQuery(undefined);
+
+  const handleCategory = (id: string) => {
+    navigate("/all-products", {state: {categoryId: id}});
+    setOpenMenu(null);
+  }
 
   return (
     <nav
@@ -119,6 +129,43 @@ const Navbar = () => {
           >
             All Products
           </NavLink>
+          <div className="relative">
+            <button
+              className="inline-flex items-center px-1 pt-1 border-b-2 leading-5 text-gray-200 focus:outline-none transition duration-150 ease-in-out border-transparent focus:border-gray-300"
+              onMouseEnter={() => setOpenMenu("Categories")}
+              onClick={() =>
+                setOpenMenu(openMenu === "Categories" ? null : "Categories")
+              }
+            >
+              Categories
+              <ChevronDown className="ml-1 h-4 w-4" />
+            </button>
+            {openMenu && (
+              <div
+                className="absolute left-0 mt-2 w-screen max-w-md sm:px-0 lg:max-w-3xl"
+                onMouseLeave={() => setOpenMenu(null)}
+              >
+                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-3">
+                    {categories?.data?.map((category: ICategory) => (
+                      <div
+                        onClick={() => handleCategory(category.id)}
+                        key={category.id}
+                        className="flex items-center cursor-pointer gap-2 text-gray-900 hover:text-yellow-500"
+                      >
+                        <img
+                          src={category.logo}
+                          alt={category.name}
+                          className="w-10 h-10"
+                        />
+                        <span>{category.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <NavLink
             to="/comparison"
             className={({ isActive }) =>

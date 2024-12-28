@@ -106,7 +106,7 @@ export function ProductComparison() {
                     {product.productImage && product.productImage.map((img) => (
                       <img
                         key={img.id}
-                        src={img.url}
+                        src={img.url ? img.url : ""}
                         alt={product.name}
                         className="h-16 w-16 rounded-md object-cover"
                       />

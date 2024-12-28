@@ -5,6 +5,7 @@ import {
   Landmark,
   Lock,
   Logs,
+  MailCheck,
   PackageSearch,
   Star,
   Store,
@@ -42,7 +43,12 @@ const adminNavItems: TMenuItem[] = [
     name: "Change Password",
     to: "/dashboard/admin/change-password",
     icon: <Lock className="w-4 h-4" />,
-  }
+  },
+  {
+    name: "Subscribe User",
+    to: "/dashboard/admin/subscribe",
+    icon: <MailCheck className="w-4 h-4" />,
+  },
 ];
 
 const vendorNavItems: TMenuItem[] = [
@@ -85,7 +91,7 @@ const vendorNavItems: TMenuItem[] = [
     name: "Change Password",
     to: "/dashboard/vendor/change-password",
     icon: <Lock className="w-4 h-4" />,
-  }
+  },
 ];
 
 const userNavItems: TMenuItem[] = [
@@ -100,10 +106,15 @@ const userNavItems: TMenuItem[] = [
     icon: <Logs className="w-4 h-4" />,
   },
   {
+    name: "Payment History",
+    to: "/dashboard/user/payment-history",
+    icon: <Landmark className="w-4 h-4" />,
+  },
+  {
     name: "Change Password",
     to: "/dashboard/user/change-password",
     icon: <Lock className="w-4 h-4" />,
-  }
+  },
 ];
 
 export { adminNavItems, vendorNavItems, userNavItems };

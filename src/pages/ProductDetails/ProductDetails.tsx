@@ -106,7 +106,7 @@ export default function ProductDetails() {
                 (src: IProductImage, index: number) => (
                   <CarouselItem key={index}>
                     <img
-                      src={src.url}
+                      src={src.url ?? ""}
                       alt={`Product image ${index + 1}`}
                       className="rounded-lg h-96 w-full object-cover"
                     />
