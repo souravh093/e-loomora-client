@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Input } from "../ui/input";
 import Container from "./Container";
 import Cart from "./Cart";
 import { Button } from "../ui/button";
-import { logout, selectCurrentUser, useCurrentToken } from "@/redux/api/features/authSlice";
+import {
+  logout,
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/api/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   DropdownMenu,
@@ -16,14 +20,16 @@ import {
 } from "../ui/dropdown-menu";
 import { CircleUser, SearchIcon, Menu, X } from "lucide-react";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector(useCurrentToken);
-  const currentUser = useAppSelector(selectCurrentUser)
+  const currentUser = useAppSelector(selectCurrentUser);
   const userId = currentUser?.id ? currentUser.id : null;
-  const {data: userData} = useGetUserByIdQuery(userId);
+  const { data: userData } = useGetUserByIdQuery(userId);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -42,11 +48,35 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="py-3 border-y sticky top-0 z-10 bg-white shadow-md">
+    <nav
+      className={`py-3 border-b border-gray-700 sticky top-0 z-10 bg-gray-900 shadow-sm ${
+        isScrolled ? "glassmorphism" : ""
+      }`}
+    >
       <Container className="flex items-center justify-between">
         <Link to={"/"}>
-          <h1 className="font-black text-xl text-yellow-500">LOOMORA</h1>
+          <h1 className="flex items-center gap-2">
+            <img src={logo} alt="logo" className="h-10 w-10" />
+            <span className="font-black text-2xl text-yellow-500 ">
+              LOOMORA
+            </span>
+          </h1>
         </Link>
         <div className="hidden md:flex">
           <form className="flex" onSubmit={handleSearchSubmit}>
@@ -54,7 +84,9 @@ const Navbar = () => {
               type="text"
               name="searchTerm"
               placeholder="Search"
-              className="rounded-none"
+              className={`rounded-none ${
+                isScrolled ? "text-gray-700" : "bg-gray-200"
+              }`}
             />
             <Button
               type="submit"
@@ -70,7 +102,9 @@ const Navbar = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+              isActive
+                ? "text-yellow-500 font-bold"
+                : `${isScrolled ? "text-gray-900" : "text-gray-200"}`
             }
           >
             Home
@@ -78,7 +112,9 @@ const Navbar = () => {
           <NavLink
             to="/all-products"
             className={({ isActive }) =>
-              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+              isActive
+                ? "text-yellow-500 font-bold"
+                : `${isScrolled ? "text-gray-900" : "text-gray-200"}`
             }
           >
             All Products
@@ -86,7 +122,9 @@ const Navbar = () => {
           <NavLink
             to="/comparison"
             className={({ isActive }) =>
-              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+              isActive
+                ? "text-yellow-500 font-bold"
+                : `${isScrolled ? "text-gray-900" : "text-gray-200"}`
             }
           >
             Comparison
@@ -94,7 +132,9 @@ const Navbar = () => {
           <NavLink
             to="/shops"
             className={({ isActive }) =>
-              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+              isActive
+                ? "text-yellow-500 font-bold"
+                : `${isScrolled ? "text-gray-900" : "text-gray-200"}`
             }
           >
             Shop
@@ -102,7 +142,9 @@ const Navbar = () => {
           <NavLink
             to="/recent-viewed"
             className={({ isActive }) =>
-              isActive ? "text-yellow-500 font-bold" : "text-gray-700"
+              isActive
+                ? "text-yellow-500 font-bold"
+                : `${isScrolled ? "text-gray-900" : "text-gray-200"}`
             }
           >
             Recent Product
@@ -117,13 +159,15 @@ const Navbar = () => {
                   size="icon"
                   className="rounded-full"
                 >
-                  {
-                    userData?.data?.image ? (
-                      <img src={userData.data.image} alt="user" className="w-8 h-8 rounded-full" />
-                    ) : (
-                      <CircleUser className="h-5 w-5" />
-                    )
-                  }
+                  {userData?.data?.image ? (
+                    <img
+                      src={userData.data.image}
+                      alt="user"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  ) : (
+                    <CircleUser className="h-5 w-5" />
+                  )}
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -164,7 +208,7 @@ const Navbar = () => {
         </div>
       </Container>
       {isMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden text-gray-200 bg-gray-900">
           <div className="flex flex-col items-center gap-4 p-4">
             <form className="flex w-full" onSubmit={handleSearchSubmit}>
               <Input

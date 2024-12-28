@@ -49,7 +49,7 @@ const Cart = () => {
     <Sheet>
       <SheetTrigger>
         <div className="relative">
-          <button>
+          <button className="text-gray-200">
             <ShoppingCart className="w-10 h-10" />
           </button>
           <span className="absolute bottom-0 -right-2 z-30 bg-yellow-500 px-2 rounded-full">

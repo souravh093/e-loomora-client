@@ -54,7 +54,6 @@ export default function EditProduct() {
   });
 
   const onSubmit = async (values: z.infer<typeof editProductFormSchema>) => {
-    console.log("clicked"); // Debugging step
     const productData = {
       name: values.name,
       description: values.description,
