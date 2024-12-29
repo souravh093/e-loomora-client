@@ -22,7 +22,15 @@ import { Link } from "react-router";
 import { Button } from "../ui/button";
 import { ShoppingBag } from "lucide-react";
 
-export function ShopCard({ id, name, logoUrl, description, follower }: IShop) {
+export function ShopCard({
+  id,
+  name,
+  logoUrl,
+  description,
+  follower,
+  createdAt,
+  product,
+}: IShop) {
   const user = useAppSelector(selectCurrentUser);
   const userId = user?.id ? user.id : "";
   const [followShop] = useCreateFollowMutation();
@@ -105,6 +113,20 @@ export function ShopCard({ id, name, logoUrl, description, follower }: IShop) {
         </div>
       </CardHeader>
       <CardContent>
+        <div className="flex justify-between">
+          <div>
+            <p className="text-sm my-2">
+              <span className="font-semibold">Joining date:</span>{" "}
+              {new Date(createdAt).toLocaleDateString()}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm my-2">
+              <span className="font-semibold">Total Products:</span>{" "}
+              {product.length}
+            </p>
+          </div>
+        </div>
         <p className="text-sm line-clamp-2">{description}</p>
       </CardContent>
       <CardFooter className="flex items-center justify-between">

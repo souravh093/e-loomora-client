@@ -21,7 +21,7 @@ const Pagination: React.FC<PaginationProps> = ({ active, totalPages, onPageChang
       <Button
         key={i}
         size="sm"
-        className={`rounded-none ${active === i ? "bg-green-500 text-white" : "bg-transparent"}`}
+        className={`rounded-none ${active === i ? "bg-yellow-500 text-white" : "bg-transparent"}`}
         onClick={() => onPageChange(i)}
         variant={active === i ? "default" : "ghost"}
       >
@@ -45,7 +45,7 @@ const Pagination: React.FC<PaginationProps> = ({ active, totalPages, onPageChang
       <Button
         key={1}
         size="sm"
-        className={`rounded-none ${active === 1 ? "bg-green-500 text-white" : "bg-transparent"}`}
+        className={`rounded-none ${active === 1 ? "bg-yellow-500 text-white" : "bg-transparent"}`}
         onClick={() => onPageChange(1)}
         variant={active === 1 ? "default" : "ghost"}
       >
@@ -69,7 +69,7 @@ const Pagination: React.FC<PaginationProps> = ({ active, totalPages, onPageChang
       <Button
         key={totalPages}
         size="sm"
-        className={`rounded-none ${active === totalPages ? "bg-green-500 text-white" : "bg-transparent"}`}
+        className={`rounded-none ${active === totalPages ? "bg-yellow-500 text-white" : "bg-transparent"}`}
         onClick={() => onPageChange(totalPages)}
         variant={active === totalPages ? "default" : "ghost"}
       >

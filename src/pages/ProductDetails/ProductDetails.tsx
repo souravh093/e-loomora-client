@@ -20,11 +20,13 @@ import { useGetOrderByUserIdQuery } from "@/redux/api/features/orderApi";
 import { selectCurrentUser } from "@/redux/api/features/authSlice";
 import { Star } from "lucide-react";
 import recentViewedProduct from "@/utils/addToRecentViewed";
+import { useState } from "react";
 
 export default function ProductDetails() {
   const currentUser = useAppSelector(selectCurrentUser);
   const userId = currentUser ? currentUser.id : null;
   const { id } = useParams();
+  const [quantity, setQuantity] = useState(1);
   const { data: productDetails } = useGetProductByIdQuery(id);
 
   const query = [
@@ -42,6 +44,12 @@ export default function ProductDetails() {
 
   const dispatch = useAppDispatch();
   const cartProducts = useAppSelector((state) => state.cart.items);
+
+  const discountedPrice = productDetails?.data.discount
+    ? productDetails?.data.price -
+      (productDetails?.data.price * productDetails?.data.discount) / 100
+    : productDetails?.data.price;
+
   const addToCart = () => {
     for (const item of cartProducts) {
       if (item.shopId !== productDetails?.data.shopId) {
@@ -57,9 +65,10 @@ export default function ProductDetails() {
       id: productDetails?.data.id,
       name: productDetails?.data.name,
       shopId: productDetails?.data.shopId,
-      price: productDetails?.data.price,
+      price: discountedPrice,
       image: productDetails?.data?.productImage?.[0]?.url ?? "",
       stockQuantity: productDetails?.data.inventoryCount,
+      quantity,
     };
 
     dispatch(addItem(cart));
@@ -85,16 +94,19 @@ export default function ProductDetails() {
       ));
   };
 
-  const discountedPrice = productDetails?.data.discount
-    ? productDetails?.data.price -
-      (productDetails?.data.price * productDetails?.data.discount) / 100
-    : productDetails?.data.price;
-
   if (productDetails?.data && productDetails?.data.id) {
     recentViewedProduct(productDetails?.data);
   }
 
+  const handleIncreaseQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
 
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -126,7 +138,10 @@ export default function ProductDetails() {
             </h1>
             <div className="flex items-center gap-2 mb-4">
               <Badge>{productDetails?.data?.category?.name}</Badge>
-              <Link to={`/shop-products/${productDetails?.data?.shop?.id}`} className="text-muted-foreground">
+              <Link
+                to={`/shop-products/${productDetails?.data?.shop?.id}`}
+                className="text-muted-foreground"
+              >
                 by {productDetails?.data?.shop?.name}
               </Link>
             </div>
@@ -138,11 +153,11 @@ export default function ProductDetails() {
             </div>
             <div>
               <p className="text-xl font-bold text-primary">
-                ৳{discountedPrice}
+                ৳{discountedPrice * quantity}
               </p>
               {productDetails?.data?.discount && (
                 <p className="text-sm text-gray-500 line-through">
-                  ৳{productDetails?.data?.price}
+                  ৳{productDetails?.data?.price * quantity}
                 </p>
               )}
             </div>
@@ -150,6 +165,23 @@ export default function ProductDetails() {
             <p className="mb-4">
               In stock: {productDetails?.data?.inventoryCount}
             </p>
+            <div className="mt-4 flex items-center my-4">
+              <button
+                onClick={handleDecreaseQuantity}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-lg"
+              >
+                -
+              </button>
+              <span className="px-4 py-2 bg-gray-100 text-gray-700">
+                {quantity}
+              </span>
+              <button
+                onClick={handleIncreaseQuantity}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-r-lg"
+              >
+                +
+              </button>
+            </div>
             <Button
               onClick={addToCart}
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
@@ -166,34 +198,40 @@ export default function ProductDetails() {
         <h2 className="text-2xl font-bold mt-8 mb-4">Customer Review</h2>
 
         <div className="flex flex-col gap-2">
-          {productDetails?.data?.review.map((review: IReview) => (
-            <div key={review.id} className="flex items-center gap-3 w-full">
-              <img
-                src={review.user.image}
-                alt="user image"
-                className="h-32 w-32 rounded-full object-cover"
-              />
-              <div>
+          {productDetails?.data?.review.length < 1 ? (
+            <span>No review have</span>
+          ) : (
+            productDetails?.data?.review.map((review: IReview) => (
+              <div key={review.id} className="flex items-center gap-3 w-full">
+                <img
+                  src={review.user.image}
+                  alt="user image"
+                  className="h-32 w-32 rounded-full object-cover"
+                />
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold">{review.user.name}</span>
-                    <div className="flex items-center">
-                      {renderStars(review.rating)}
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl font-bold">
+                        {review.user.name}
+                      </span>
+                      <div className="flex items-center">
+                        {renderStars(review.rating)}
+                      </div>
                     </div>
+                    <p>{review.content}</p>
                   </div>
-                  <p>{review.content}</p>
+                  {review.replayReview.length > 0 && (
+                    <div className="flex items-center gap-2 ml-10">
+                      <span className="font-bold">Replay Review: </span>
+                      {review.replayReview.map((review) => (
+                        <div key={review.id}>{review.content}</div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                {review.replayReview.length > 0 && (
-                  <div className="flex items-center gap-2 ml-10">
-                    <span className="font-bold">Replay Review: </span>
-                    {review.replayReview.map((review) => (
-                      <div key={review.id}>{review.content}</div>
-                    ))}
-                  </div>
-                )}
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 

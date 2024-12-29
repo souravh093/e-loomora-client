@@ -26,6 +26,7 @@ import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import Pagination from "@/components/shared/Pagination";
 
 const AllProducts = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const AllProducts = () => {
   const searchTermData = location.state?.searchTerm;
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
   const [filters, setFilters] = useState<{
     category: string;
     price: { min: number | null; max: number | null };
@@ -55,8 +57,8 @@ const AllProducts = () => {
       }),
     },
     {
-      name: "limit",
-      value: "100",
+      name: "page",
+      value: page.toString(),
     },
   ];
 
@@ -232,6 +234,16 @@ const AllProducts = () => {
                   {products?.data?.result?.map((product: IProduct) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
+                </div>
+              )}
+
+              {products?.data?.meta?.page > 1 && (
+                <div className="flex justify-end py-5">
+                  <Pagination
+                    active={page}
+                    totalPages={products?.data?.meta?.page}
+                    onPageChange={setPage}
+                  />
                 </div>
               )}
             </div>
