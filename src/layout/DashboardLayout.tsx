@@ -17,23 +17,28 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import logo from "@/assets/logo.png";
 
 export function DashboardLayout() {
-  const currentUser = useAppSelector(selectCurrentUser)
+  const currentUser = useAppSelector(selectCurrentUser);
   const userId = currentUser?.id ? currentUser.id : null;
-  const {data: userData} = useGetUserByIdQuery(userId);
+  const { data: userData } = useGetUserByIdQuery(userId);
   const navigate = useNavigate();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    dispatch(logout())
-    navigate('/login')
-  }
+    dispatch(logout());
+    navigate("/login");
+  };
+
+  
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold text-yellow-500">
+            <Link
+              to="/"
+              className="flex items-center gap-2 font-semibold text-yellow-500"
+            >
               <img src={logo} alt="logo" className="w-8 h-8" />
               <span className="font-black">LOOMORA</span>
             </Link>
@@ -64,13 +69,15 @@ export function DashboardLayout() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                {
-                  userData?.data.image ? (
-                    <img src={userData.data.image} alt="avatar" className="w-8 h-8 rounded-full" />
-                  ) : (
-                    <CircleUser className="h-8 w-8" />
-                  )
-                }
+                {userData?.data.image ? (
+                  <img
+                    src={userData.data.image}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full"
+                  />
+                ) : (
+                  <CircleUser className="h-8 w-8" />
+                )}
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -78,6 +85,9 @@ export function DashboardLayout() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/dashboard/profile")}>
+                Profile
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/")}>
                 Home

@@ -64,6 +64,7 @@ export interface IShop {
   createdAt: string;
   updatedAt: string;
   user?: TUser;
+  product: IProduct[];
 }
 
 export interface IOrderItem {

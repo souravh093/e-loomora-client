@@ -13,6 +13,7 @@ import VendorShop from "@/pages/Dashboard/Admin/VendorShop/VendorShop";
 import CustomerOrder from "@/pages/Dashboard/Customer/CustomerOrder/CustomerOrder";
 import PaymentUserHistory from "@/pages/Dashboard/Customer/PaymentUserHistory/PaymentUserHistory";
 import DashboardHome from "@/pages/Dashboard/DashboardHome";
+import Profile from "@/pages/Dashboard/Profile";
 import Coupon from "@/pages/Dashboard/Vendor/Coupon/Coupon";
 import CustomersReview from "@/pages/Dashboard/Vendor/CustomersReview/CustomersReview";
 import Inventory from "@/pages/Dashboard/Vendor/Inventory/Inventory";
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardHome />,
       },
+      {
+        path: "profile",
+        element: <Profile />,
+      },  
 
       // Admin Routes
       {

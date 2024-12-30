@@ -45,6 +45,7 @@ export const baseApi = createApi({
     "Follows",
     "Coupons",
     "Subscriptions",
+    "Profile",
   ],
   endpoints: () => ({}),
 });

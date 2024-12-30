@@ -43,6 +43,10 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: payload,
       }),
+    }),
+    getProfile: builder.query({
+      query: () => "/users/profile",
+      providesTags: ["Profile"],
     })
   }),
 });
@@ -54,4 +58,5 @@ export const {
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
+  useGetProfileQuery,
 } = authApi;

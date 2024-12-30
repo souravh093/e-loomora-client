@@ -60,3 +60,17 @@ export type VendorSignupFormValues = z.infer<
 >;
 
 
+export const profileFormSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }).optional(),
+  role: z.string(),
+  image: z.custom<File | null | undefined>((v) => v instanceof File || v === null || v === undefined, {
+    message: "Image must be a file, null, or undefined.",
+  }).optional(),
+})
+
+export type ProfileFormValues = z.infer<typeof profileFormSchema> 
