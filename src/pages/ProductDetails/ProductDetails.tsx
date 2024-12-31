@@ -21,13 +21,14 @@ import { selectCurrentUser } from "@/redux/api/features/authSlice";
 import { Star } from "lucide-react";
 import recentViewedProduct from "@/utils/addToRecentViewed";
 import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductDetails() {
   const currentUser = useAppSelector(selectCurrentUser);
   const userId = currentUser ? currentUser.id : null;
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const { data: productDetails } = useGetProductByIdQuery(id);
+  const { data: productDetails, isLoading } = useGetProductByIdQuery(id);
 
   const query = [
     {
@@ -110,84 +111,102 @@ export default function ProductDetails() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-20">
         <div>
-          <Carousel className="w-full max-w-xl mx-auto">
-            <CarouselContent>
-              {productDetails?.data?.productImage?.map(
-                (src: IProductImage, index: number) => (
-                  <CarouselItem key={index}>
-                    <img
-                      src={src.url ?? ""}
-                      alt={`Product image ${index + 1}`}
-                      className="rounded-lg h-96 w-full object-cover"
-                    />
-                  </CarouselItem>
-                )
-              )}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+          {isLoading ? (
+            <Skeleton className="w-full max-w-3xl mx-auto h-96" />
+          ) : (
+            <Carousel className="w-full max-w-3xl mx-auto">
+              <CarouselContent>
+                {productDetails?.data?.productImage?.map(
+                  (src: IProductImage, index: number) => (
+                    <CarouselItem key={index}>
+                      <img
+                        src={src.url ?? ""}
+                        alt={`Product image ${index + 1}`}
+                        className="rounded-lg h-[500px] w-full object-cover"
+                      />
+                    </CarouselItem>
+                  )
+                )}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          )}
         </div>
 
         <Card>
           <CardContent className="p-6">
-            <h1 className="text-3xl font-bold mb-2">
-              {productDetails?.data?.name}
-            </h1>
-            <div className="flex items-center gap-2 mb-4">
-              <Badge>{productDetails?.data?.category?.name}</Badge>
-              <Link
-                to={`/shop-products/${productDetails?.data?.shop?.id}`}
-                className="text-muted-foreground"
-              >
-                by {productDetails?.data?.shop?.name}
-              </Link>
-            </div>
-            <div className="flex items-center">
-              {renderStars(productDetails?.data?.avgRating)}
-              <span className="ml-1 text-sm text-gray-600">
-                ({productDetails?.data?.review.length})
-              </span>
-            </div>
-            <div>
-              <p className="text-xl font-bold text-primary">
-                ৳{discountedPrice * quantity}
-              </p>
-              {productDetails?.data?.discount && (
-                <p className="text-sm text-gray-500 line-through">
-                  ৳{productDetails?.data?.price * quantity}
+            {isLoading ? (
+              <>
+                <Skeleton className="h-8 w-3/4 mb-2" />
+                <Skeleton className="h-6 w-1/2 mb-4" />
+                <Skeleton className="h-6 w-full mb-4" />
+                <Skeleton className="h-6 w-1/4 mb-4" />
+                <Skeleton className="h-6 w-full mb-4" />
+                <Skeleton className="h-6 w-1/4 mb-4" />
+                <Skeleton className="h-10 w-full" />
+              </>
+            ) : (
+              <>
+                <h1 className="text-3xl font-bold mb-2">
+                  {productDetails?.data?.name}
+                </h1>
+                <div className="flex items-center gap-2 mb-4">
+                  <Badge>{productDetails?.data?.category?.name}</Badge>
+                  <Link
+                    to={`/shop-products/${productDetails?.data?.shop?.id}`}
+                    className="text-muted-foreground"
+                  >
+                    by {productDetails?.data?.shop?.name}
+                  </Link>
+                </div>
+                <div className="flex items-center">
+                  {renderStars(productDetails?.data?.avgRating)}
+                  <span className="ml-1 text-sm text-gray-600">
+                    ({productDetails?.data?.review.length})
+                  </span>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-primary">
+                    ৳{discountedPrice * quantity}
+                  </p>
+                  {productDetails?.data?.discount && (
+                    <p className="text-sm text-gray-500 line-through">
+                      ৳{productDetails?.data?.price * quantity}
+                    </p>
+                  )}
+                </div>
+                <p className="mb-4">{productDetails?.data?.description}</p>
+                <p className="mb-4">
+                  In stock: {productDetails?.data?.inventoryCount}
                 </p>
-              )}
-            </div>
-            <p className="mb-4">{productDetails?.data?.description}</p>
-            <p className="mb-4">
-              In stock: {productDetails?.data?.inventoryCount}
-            </p>
-            <div className="mt-4 flex items-center my-4">
-              <button
-                onClick={handleDecreaseQuantity}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-lg"
-              >
-                -
-              </button>
-              <span className="px-4 py-2 bg-gray-100 text-gray-700">
-                {quantity}
-              </span>
-              <button
-                onClick={handleIncreaseQuantity}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-r-lg"
-              >
-                +
-              </button>
-            </div>
-            <Button
-              onClick={addToCart}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
-            >
-              Add to Cart
-            </Button>
+                <div className="mt-4 flex items-center my-4">
+                  <button
+                    onClick={handleDecreaseQuantity}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-lg"
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-2 bg-gray-100 text-gray-700">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={handleIncreaseQuantity}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-r-lg"
+                  >
+                    +
+                  </button>
+                </div>
+                <Button
+                  onClick={addToCart}
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
+                >
+                  Add to Cart
+                </Button>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>

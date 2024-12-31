@@ -61,7 +61,7 @@ const Cart = () => {
         <SheetTitle className="text-gray-700 border-b-2 ">
           Cart Items
         </SheetTitle>
-        <div className="mt-5 flex flex-col gap-4">
+        <div className="mt-5 flex flex-col gap-4 overflow-y-auto max-h-screen-3/4">
           {cartProducts.map((product) => (
             <CartCard key={product.id} product={product} />
           ))}

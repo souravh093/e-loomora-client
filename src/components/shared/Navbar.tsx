@@ -66,12 +66,12 @@ const Navbar = () => {
     };
   }, []);
 
-  const {data: categories} = useGetCategoriesQuery(undefined);
+  const { data: categories } = useGetCategoriesQuery(undefined);
 
   const handleCategory = (id: string) => {
-    navigate("/all-products", {state: {categoryId: id}});
+    navigate("/all-products", { state: { categoryId: id } });
     setOpenMenu(null);
-  }
+  };
 
   return (
     <nav
@@ -131,7 +131,9 @@ const Navbar = () => {
           </NavLink>
           <div className="relative">
             <button
-              className="inline-flex items-center px-1 pt-1 border-b-2 leading-5 text-gray-200 focus:outline-none transition duration-150 ease-in-out border-transparent focus:border-gray-300"
+              className={`inline-flex items-center px-1 pt-1 border-b-2 leading-5 focus:outline-none transition duration-150 ease-in-out border-transparent focus:border-gray-300 ${
+                isScrolled ? "text-gray-900" : "text-gray-200"
+              }`}
               onMouseEnter={() => setOpenMenu("Categories")}
               onClick={() =>
                 setOpenMenu(openMenu === "Categories" ? null : "Categories")

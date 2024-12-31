@@ -58,19 +58,14 @@ const ShowProduct = () => {
           next={fetchMoreData}
           hasMore={products?.data?.result?.length >= 5}
           loader={
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
               {[0, 1, 2, 3, 4].map((i) => (
                 <ProductCardSkeleton key={i} />
               ))}
             </div>
           }
-          endMessage={
-            <p style={{ textAlign: "center", marginTop: "20px" }}>
-              <b>No more products to display</b>
-            </p>
-          }
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
             {isLoading &&
               [0, 1, 2, 3, 4].map((i) => <ProductCardSkeleton key={i} />)}
             {productsList.length > 0

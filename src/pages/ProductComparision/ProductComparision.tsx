@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AlertCircle } from "lucide-react"
 import { useGetProductsQuery } from "@/redux/api/features/productApi"
 import { IProduct } from "@/types/product.type"
+import BannerPage from "@/components/shared/BannerPage"
 
 export function ProductComparison() {
   const [selectedProducts, setSelectedProducts] = useState<IProduct[]>([])
@@ -34,6 +35,8 @@ export function ProductComparison() {
   }
 
   return (
+    <>
+    <BannerPage title="Product Comparison" />
     <div className="container mx-auto p-4 h-screen">
       <h1 className="text-2xl font-bold mb-4">Product Comparison</h1>
       <div className="mb-4">
@@ -119,5 +122,6 @@ export function ProductComparison() {
         </Table>
       )}
     </div>
+    </>
   )
 }

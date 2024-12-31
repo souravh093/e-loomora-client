@@ -91,8 +91,8 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           product={cart}
         />
       )}
-      <Card className="overflow-hidden transition-all hover:shadow-lg">
-        <Link to={`/product-details/${product.id}`}>
+      <Card className="overflow-hidden transition-all hover:shadow-lg max-w-[300px] mx-auto flex flex-col">
+        <Link to={`/product-details/${product.id}`} className="flex-grow">
           <div className="relative overflow-hidden">
             <img
               src={product?.productImage?.[0]?.url ?? ""}
@@ -102,9 +102,13 @@ const ProductCard = ({ product }: { product: IProduct }) => {
             <Badge className="absolute right-2 top-2 bg-black/60 hover:bg-black/70">
               {product.category.name}
             </Badge>
-            {product?.discount && (
+            {product?.discount ? (
               <Badge className="absolute left-2 top-2 bg-red-500 hover:bg-red-600">
                 {product.discount}% OFF
+              </Badge>
+            ) : (
+              <Badge className="absolute left-2 top-2 bg-gray-500 hover:bg-gray-600">
+                0% OFF
               </Badge>
             )}
           </div>
@@ -137,7 +141,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
               </p>
               {product.discount && (
                 <p className="text-sm text-gray-500 line-through">
-                  ৳{product.price.toLocaleString()}
+                  ৳{product.price.toLocaleString() + "/-"}
                 </p>
               )}
             </div>
