@@ -7,8 +7,8 @@ import { RootState } from "../store";
 import { logout } from "./features/authSlice"; // Import your logout action
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://e-loomora-server.onrender.com/api/v1",
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: "https://e-loomora-server.onrender.com/api/v1",
+  // baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
