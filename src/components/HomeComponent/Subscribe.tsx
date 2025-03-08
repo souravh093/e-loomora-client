@@ -30,7 +30,7 @@ export default function Subscribe() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-yellow-400 to-yellow-600 py-16 sm:py-24">
+    <section className="container mx-auto mt-10 rounded-lg relative overflow-hidden bg-gradient-to-r from-yellow-400 to-yellow-600 py-16 sm:py-24">
       <div className="absolute inset-0">
         <svg
           className="absolute left-full transform translate-x-1/2 translate-y-1/4"

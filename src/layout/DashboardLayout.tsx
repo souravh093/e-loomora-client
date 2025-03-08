@@ -12,7 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { logout, selectCurrentUser } from "@/redux/api/features/authSlice";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { CircleUser, Menu } from "lucide-react";
+import { ChevronRight, CircleUser, Menu } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import logo from "@/assets/logo.png";
 
@@ -22,6 +22,12 @@ export function DashboardLayout() {
   const { data: userData } = useGetUserByIdQuery(userId);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const uuidRegex =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  if (uuidRegex.test(pathSegments[pathSegments.length - 1])) {
+    pathSegments.pop();
+  }
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -29,7 +35,6 @@ export function DashboardLayout() {
     navigate("/login");
   };
 
-  
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -39,7 +44,7 @@ export function DashboardLayout() {
               to="/"
               className="flex items-center gap-2 font-semibold text-yellow-500"
             >
-              <img src={logo} alt="logo" className="w-8 h-8" />
+              <img src={logo} alt="logo" className="w-8 h-8" loading="lazy" />
               <span className="font-black">LOOMORA</span>
             </Link>
           </div>
@@ -98,7 +103,20 @@ export function DashboardLayout() {
 
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">{pathname}</h1>
+            <ol className="list-reset flex items-center bg-gray-200 px-2 py-1 rounded-sm">
+              {pathSegments.map((segment, index) => {
+                return (
+                  <li key={index} className="flex items-center">
+                    <span className="text-gray-600 hover:text-gray-800">
+                      {segment.charAt(0).toUpperCase() + segment.slice(1)}
+                    </span>
+                    {index < pathSegments.length - 1 && (
+                      <ChevronRight className="mx-2 text-gray-400" />
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
           </div>
           <div
             className="flex flex-1  p-5 rounded-lg border border-dashed shadow-sm"

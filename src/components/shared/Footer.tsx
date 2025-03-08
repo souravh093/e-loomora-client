@@ -95,8 +95,9 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
-          <p>&copy; 2025 LOOMORA. All rights reserved.</p>
+        <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600 flex gap-2 justify-center">
+          <p>&copy; 2025 LOOMORA. All rights reserved.</p> 
+          <p>Design and Developed by <Link className="text-yellow-700" target="_blank" to={'https://sourave.vercel.app/'}>Sourave Halder</Link></p>
         </div>
       </div>
     </footer>

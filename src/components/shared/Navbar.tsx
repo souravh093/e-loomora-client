@@ -18,7 +18,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { CircleUser, SearchIcon, Menu, X, ChevronDown } from "lucide-react";
+import {
+  CircleUser,
+  SearchIcon,
+  Menu,
+  X,
+  ChevronDown,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 import logo from "@/assets/logo.png";
 import { useGetCategoriesQuery } from "@/redux/api/features/categoryApi";
@@ -75,8 +83,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`py-3 border-b border-gray-700 sticky top-0 z-10 bg-gray-900 shadow-sm ${
-        isScrolled ? "glassmorphism" : ""
+      className={`py-3 border-b border-gray-700 sticky top-0 z-50 bg-gray-900 shadow-sm ${
+        isScrolled ? "bg-white border-none shadow-lg" : ""
       }`}
     >
       <Container className="flex items-center justify-between">
@@ -235,11 +243,13 @@ const Navbar = () => {
           ) : (
             <>
               <NavLink to={"/login"}>
-                <Button variant={"outline"}>Login</Button>
+                <Button variant={"outline"} className="flex items-center gap-2">
+                  <LogIn /> Login
+                </Button>
               </NavLink>
               <NavLink to={"/signup"}>
-                <Button className="bg-yellow-500 hover:bg-yellow-600">
-                  Register
+                <Button className="bg-yellow-500 hover:bg-yellow-600 flex items-center gap-2">
+                  <UserPlus /> Register
                 </Button>
               </NavLink>
             </>
@@ -311,11 +321,16 @@ const Navbar = () => {
             ) : (
               <>
                 <NavLink to={"/login"} onClick={toggleMenu}>
-                  <Button variant={"outline"}>Login</Button>
+                  <Button
+                    variant={"outline"}
+                    className="flex items-center gap-2"
+                  >
+                    <LogIn /> Login
+                  </Button>
                 </NavLink>
                 <NavLink to={"/signup"} onClick={toggleMenu}>
-                  <Button className="bg-yellow-500 hover:bg-yellow-600">
-                    Register
+                  <Button className="bg-yellow-500 hover:bg-yellow-600 flex items-center gap-2">
+                    <UserPlus /> Register
                   </Button>
                 </NavLink>
               </>
