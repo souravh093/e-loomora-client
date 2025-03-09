@@ -24,7 +24,6 @@ const PaymentUserHistory = () => {
     isLoading,
     isFetching,
   } = useGetOrdersByUserIdQuery(undefined);
-  console.log(paymentHistory);
 
   return (
     <div className="w-full">

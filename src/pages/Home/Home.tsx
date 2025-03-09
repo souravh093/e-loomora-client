@@ -1,3 +1,4 @@
+import { FAQSection } from "@/components/HomeComponent/Accordion";
 import Banner from "@/components/HomeComponent/Banner";
 import CategorySection from "@/components/HomeComponent/CategorySection";
 import FeaturesProduct from "@/components/HomeComponent/FeaturesProducts";
@@ -24,6 +25,7 @@ const Home = () => {
       <ScrollToTopButton />
       {role === "USER" && <PrioritizeProduct />}
       <FeaturesProduct />
+      <FAQSection />
     </div>
   );
 };

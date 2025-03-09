@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Input } from "../ui/input";
 import Container from "./Container";
-import Cart from "./Cart";
 import { Button } from "../ui/button";
 import {
   logout,
@@ -26,6 +25,7 @@ import {
   ChevronDown,
   LogIn,
   UserPlus,
+  ShoppingCart,
 } from "lucide-react";
 import { useGetUserByIdQuery } from "@/redux/api/features/userApi";
 import logo from "@/assets/logo.png";
@@ -80,6 +80,8 @@ const Navbar = () => {
     navigate("/all-products", { state: { categoryId: id } });
     setOpenMenu(null);
   };
+
+  const cartProducts = useAppSelector((state) => state.cart.items);
 
   return (
     <nav
@@ -152,7 +154,7 @@ const Navbar = () => {
             </button>
             {openMenu && (
               <div
-                className="absolute left-0 mt-2 w-screen max-w-md sm:px-0 lg:max-w-3xl"
+                className="absolute left-0 mt-2 w-screen max-w-md sm:px-0 lg:max-w-2xl"
                 onMouseLeave={() => setOpenMenu(null)}
               >
                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
@@ -254,7 +256,14 @@ const Navbar = () => {
               </NavLink>
             </>
           )}
-          <Cart />
+          <Link to="/cart" className="relative">
+            <button className="text-gray-200">
+              <ShoppingCart className="w-10 h-10" />
+            </button>
+            <span className="absolute bottom-0 -right-2 z-30 bg-yellow-500 px-2 rounded-full">
+              {cartProducts.length}
+            </span>
+          </Link>
         </div>
         <div className="md:hidden flex items-center">
           <Button variant="secondary" size="icon" onClick={toggleMenu}>
@@ -335,7 +344,14 @@ const Navbar = () => {
                 </NavLink>
               </>
             )}
-            <Cart />
+            <Link to="/cart" className="relative">
+              <button className="text-gray-200">
+                <ShoppingCart className="w-10 h-10" />
+              </button>
+              <span className="absolute bottom-0 -right-2 z-30 bg-yellow-500 px-2 rounded-full">
+                {cartProducts.length}
+              </span>
+            </Link>
           </div>
         </div>
       )}

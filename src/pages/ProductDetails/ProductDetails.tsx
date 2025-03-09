@@ -124,7 +124,7 @@ export default function ProductDetails() {
                       <img
                         src={src.url ?? ""}
                         alt={`Product image ${index + 1}`}
-                        className="rounded-lg h-[500px] w-full object-cover"
+                        className="rounded-lg h-[500px] w-full object-contain hover:scale-125 transition-transform duration-500"
                       />
                     </CarouselItem>
                   )

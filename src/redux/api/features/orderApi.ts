@@ -34,6 +34,33 @@ const orderApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Orders"],
     }),
+    getCustomerOrdersStatus: builder.query({
+      query: () => {
+        return {
+          url: "/orders/customer/status",
+          method: "GET",
+        };
+      },
+      providesTags: ["Orders"],
+    }),
+    getCustomerOrdersCountByDay: builder.query({
+      query: () => {
+        return {
+          url: "/orders/customer/day-of-week",
+          method: "GET",
+        };
+      },
+      providesTags: ["Orders"],
+    }),
+    getCustomerOrdersCountByMonth: builder.query({
+      query: () => {
+        return {
+          url: "/orders/customer/month",
+          method: "GET",
+        };
+      },
+      providesTags: ["Orders"],
+    }),
     getOrderById: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,
@@ -92,4 +119,7 @@ export const {
   useGetOrderCountByWeekQuery,
   useGetOrderCountByMonthQuery,
   useGetAllInfoQuery,
+  useGetCustomerOrdersStatusQuery,
+  useGetCustomerOrdersCountByDayQuery,
+  useGetCustomerOrdersCountByMonthQuery,
 } = orderApi;

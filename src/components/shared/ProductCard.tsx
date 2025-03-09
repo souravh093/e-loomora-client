@@ -166,7 +166,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           {/* Image indicators */}
           {hasMultipleImages && (
             <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
-              {product.productImage.map((_, index) => (
+              {product?.productImage?.map((_, index) => (
                 <div
                   key={index}
                   className={`w-1.5 h-1.5 rounded-full transition-all ${

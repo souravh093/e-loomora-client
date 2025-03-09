@@ -44,6 +44,12 @@ const CustomerOrder = () => {
       name: "page",
       value: page.toString(),
     },
+    {
+      name: "orderBy",
+      value: JSON.stringify({
+        createdAt: "desc",
+      })
+    }
   ];
 
   const { data: orderData, isLoading, isFetching } = useGetOrdersQuery(query);
