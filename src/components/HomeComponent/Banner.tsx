@@ -99,7 +99,7 @@ const Banner = () => {
             </div>
           )}
         </div>
-        <div className="col-span-10 grid grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="col-span-10 grid grid-cols-2 lg:grid-cols-3">
           <div className="col-span-2 lg:col-span-2">
             <Swiper
               modules={[Pagination, Autoplay]}
@@ -107,7 +107,7 @@ const Banner = () => {
               slidesPerView={1}
               pagination={{ clickable: true }}
               autoplay={{ delay: 5000 }}
-              className="h-[300px] sm:h-[400px] lg:h-[500px]"
+              className="h-[300px] sm:h-[400px] lg:h-[520px]"
             >
               {slides.map((slide) => (
                 <SwiperSlide key={slide.id}>
@@ -143,9 +143,9 @@ const Banner = () => {
 
           <div className="lg:col-span-1 hidden lg:block">
             <div className="w-full max-w-4xl mx-auto">
-              <div className="relative overflow-hidden bg-[#E6F3FA] p-2 md:p-4 mb-1">
+              <div className="relative overflow-hidden bg-[#E6F3FA] p-2 md:p-4">
                 <div className="flex flex-col md:flex-row justify-between items-center">
-                  <div className="z-10 mb-6 md:mb-0">
+                  <div className="z-10 mb-6 md:mb-11">
                     <div className="text-2xl md:text-3xl font-semibold text-gray-800">
                       20% Off
                     </div>

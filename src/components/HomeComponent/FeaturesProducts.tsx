@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { Link } from "react-router"
@@ -9,6 +7,7 @@ import { useGetProductsQuery } from "@/redux/api/features/productApi"
 import type { IProduct } from "@/types/product.type"
 import { Button } from "../ui/button"
 import ProductCard from "../shared/ProductCard"
+import featuresImage from "@/assets/features.png"
 
 const FeaturesProduct = () => {
   const { data: products } = useGetProductsQuery(undefined)
@@ -42,13 +41,8 @@ const FeaturesProduct = () => {
           <div className="lg:col-span-2 rounded-2xl overflow-hidden relative group">
             <div className="relative h-full min-h-[300px] md:min-h-[500px] bg-gradient-to-r from-primary/90 to-primary/70 flex flex-col justify-between p-8">
               {/* Background pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                  <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="1" />
-                  </pattern>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
+              <div className="absolute inset-0 opacity-50">
+                <img src={featuresImage} alt="Features" className="object-contain w-full h-full" />
               </div>
 
               <div className="relative z-10">

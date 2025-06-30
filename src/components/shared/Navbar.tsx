@@ -154,7 +154,7 @@ const Navbar = () => {
             </button>
             {openMenu && (
               <div
-                className="absolute left-0 mt-2 w-screen max-w-md sm:px-0 lg:max-w-2xl"
+                className="absolute -left-28 mt-2 w-screen max-w-md sm:px-0 lg:max-w-2xl"
                 onMouseLeave={() => setOpenMenu(null)}
               >
                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
@@ -256,13 +256,19 @@ const Navbar = () => {
               </NavLink>
             </>
           )}
-          <Link to="/cart" className="relative">
-            <button className="text-gray-200">
-              <ShoppingCart className="w-10 h-10" />
+          <Link to="/cart" className="relative flex items-center gap-2">
+            <button
+              className={`${
+                isScrolled ? "text-gray-800" : "text-gray-200"
+              } hover:text-yellow-500 transition-colors duration-300`}
+            >
+              <ShoppingCart className="w-6 h-6" />
             </button>
-            <span className="absolute bottom-0 -right-2 z-30 bg-yellow-500 px-2 rounded-full">
-              {cartProducts.length}
-            </span>
+            {cartProducts.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-yellow-500 text-gray-900 text-xs font-bold px-[6px] py-[1px] rounded-full">
+                {cartProducts.length}
+              </span>
+            )}
           </Link>
         </div>
         <div className="md:hidden flex items-center">
